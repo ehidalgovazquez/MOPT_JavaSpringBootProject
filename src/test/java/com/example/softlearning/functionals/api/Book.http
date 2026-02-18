@@ -1,0 +1,103 @@
+# He utilizado la extension REST Client de VSCode para probar las APIs RESTful y poder ejecutar las pruebas.
+
+### Crear libro (JSON)
+POST http://localhost:8080/softlearning/books
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": 1,
+  "name": "Clean Code",
+  "price": 35.0,
+  "available": true,
+  "author": "Robert C. Martin",
+  "publicationDate": "2008-08-01",
+  "availabilityDate": "2023-12-01",
+  "weight": 0.5,
+  "width": 18.0,
+  "height": 24.0,
+  "depth": 2.0,
+  "isFragile": false
+}
+
+### Obtener un libro por ID (XML)
+GET http://localhost:8080/softlearning/books/1
+Accept: application/xml
+
+### Crear libro (XML)
+POST http://localhost:8080/softlearning/books
+Content-Type: application/xml
+Accept: application/xml
+
+<book>
+    <id>2</id>
+    <name>Don Quijote de la Mancha</name>
+    <price>20.99</price>
+    <available>true</available>
+    <author>Miguel de Cervantes</author>
+    <publicationDate>1605-01-16</publicationDate>
+    <availabilityDate>2024-02-01</availabilityDate>
+    <weight>1.2</weight>
+    <width>16.0</width>
+    <height>24.0</height>
+    <depth>5.0</depth>
+    <isFragile>false</isFragile>
+</book>
+
+### Obtener un libro por ID (JSON)
+GET http://localhost:8080/softlearning/books/2
+Accept: application/json
+
+### Actualizar libro (JSON)
+PUT http://localhost:8080/softlearning/books/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": 1,
+  "name": "Clean Code - Edicion Revisada",
+  "price": 40.0,
+  "available": true,
+  "author": "Robert C. Martin",
+  "publicationDate": "2008-08-01",
+  "availabilityDate": "2024-01-01",
+  "weight": 0.5,
+  "width": 18.0,
+  "height": 24.0,
+  "depth": 2.0,
+  "isFragile": false
+}
+
+### Obtener un libro por ID (JSON)
+GET http://localhost:8080/softlearning/books/1
+Accept: application/json
+
+### Actualizar libro (XML)
+PUT http://localhost:8080/softlearning/books/2
+Content-Type: application/xml
+Accept: application/xml
+
+<book>
+    <id>2</id>
+    <name>Don Quijote - Edicion Especial</name>
+    <price>45.00</price>
+    <available>true</available>
+    <author>Miguel de Cervantes</author>
+    <publicationDate>1605-01-16</publicationDate>
+    <availabilityDate>2024-05-10</availabilityDate>
+    <weight>1.5</weight>
+    <width>18.0</width>
+    <height>26.0</height>
+    <depth>6.0</depth>
+    <isFragile>true</isFragile>
+</book>
+
+### Obtener un libro por ID (XML)
+GET http://localhost:8080/softlearning/books/2
+Accept: application/xml
+
+### Borrar libro 1
+DELETE http://localhost:8080/softlearning/books/1
+
+### Borrar libro 2
+DELETE http://localhost:8080/softlearning/books/2

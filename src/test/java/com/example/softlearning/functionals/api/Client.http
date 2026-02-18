@@ -1,0 +1,83 @@
+# He utilizado la extension REST Client de VSCode para probar las APIs RESTful y poder ejecutar las pruebas.
+
+### Crear cliente (JSON)
+POST http://localhost:8080/softlearning/clients
+Content-Type: application/json
+Accept: application/json
+
+{
+  "idClient": 1001,
+  "idPerson": "12345678X",
+  "email": "usuario@ejemplo.com",
+  "phone": "600112233",
+  "address": "Calle Mayor 10",
+  "namePerson": "Juan Perez",
+  "registrationDate": "2026-02-02"
+}
+
+### Obtener un cliente por ID (XML)
+GET http://localhost:8080/softlearning/clients/1001
+Accept: application/xml
+
+### Crear cliente (XML)
+POST http://localhost:8080/softlearning/clients
+Content-Type: application/xml
+Accept: application/xml
+
+<client>
+    <idClient>1002</idClient>
+    <idPerson>98765432Y</idPerson>
+    <email>ana.garcia@test.es</email>
+    <phone>677889900</phone>
+    <address>Avenida Diagonal 500</address>
+    <namePerson>Ana Garcia</namePerson>
+    <registrationDate>2025-12-31</registrationDate>
+</client>
+
+### Obtener un cliente por ID (JSON)
+GET http://localhost:8080/softlearning/clients/1002
+Accept: application/json
+
+### Actualizar cliente (JSON)
+PUT http://localhost:8080/softlearning/clients/1001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "idClient": 1001,
+  "idPerson": "12345678X",
+  "email": "juan.nuevo@email.com",
+  "phone": "600999888",
+  "address": "Nueva Direccion 456",
+  "namePerson": "Juan Perez",
+  "registrationDate": "2026-02-02"
+}
+
+### Obtener un cliente por ID (JSON)
+GET http://localhost:8080/softlearning/clients/1001
+Accept: application/json
+
+### Actualizar cliente (XML)
+PUT http://localhost:8080/softlearning/clients/1002
+Content-Type: application/xml
+Accept: application/xml
+
+<client>
+    <idClient>1002</idClient>
+    <idPerson>98765432Y</idPerson>
+    <email>ana.nueva@test.es</email>
+    <phone>677111222</phone>
+    <address>Calle Nueva 789</address>
+    <namePerson>Ana Garcia</namePerson>
+    <registrationDate>2025-12-31</registrationDate>
+</client>
+
+### Obtener un cliente por ID (XML)
+GET http://localhost:8080/softlearning/clients/1002
+Accept: application/xml
+
+### Borrar cliente 1001
+DELETE http://localhost:8080/softlearning/clients/1001
+
+### Borrar cliente 1002
+DELETE http://localhost:8080/softlearning/clients/1002
