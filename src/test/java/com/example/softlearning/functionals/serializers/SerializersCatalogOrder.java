@@ -21,11 +21,11 @@ public class SerializersCatalogOrder {
                         "John Doe",
                         "+1234567890",
                         new ArrayList<OrderDetailDTO>() {{
-                                add(new OrderDetailDTO("PROD1", 2, 19.99, 0.0));
-                                add(new OrderDetailDTO("PROD2", 1, 9.99, 1.0));
+                                add(new OrderDetailDTO(1, 2, 19.99, 0.0));
+                                add(new OrderDetailDTO(2, 1, 9.99, 1.0));
                         }},
                         "2024-06-02",
-                        new PhysicalDataDTO(10.0, 5.0, 3.0, 2.0, true),
+                        new PhysicalDataDTO(1.5, 20.0, 15.0, 5.0),
                         "2024-06-03",
                         "2024-06-04"
                 );

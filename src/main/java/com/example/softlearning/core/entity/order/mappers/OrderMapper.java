@@ -27,7 +27,7 @@ public class OrderMapper {
         StringBuilder sb = new StringBuilder();
         if (dto.getShopcartDetails() != null) {
             for (OrderDetailDTO d : dto.getShopcartDetails()) {
-                sb.append(d.getRef()).append(",").append(d.getAmount()).append(",")
+                sb.append(d.getBookId()).append(",").append(d.getAmount()).append(",")
                   .append(d.getPrice()).append(",").append(d.getDiscount()).append(";");
             }
         }

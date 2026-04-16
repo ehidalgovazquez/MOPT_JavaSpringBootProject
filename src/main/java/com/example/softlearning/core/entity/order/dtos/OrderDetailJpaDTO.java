@@ -1,5 +1,8 @@
 package com.example.softlearning.core.entity.order.dtos;
 
+import com.example.softlearning.core.entity.book.dtos.BookDTO;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,23 +23,33 @@ public class OrderDetailJpaDTO {
     @JoinColumn(name = "order_ref", nullable = false)
     private OrderJpaDTO order;
 
-    private String ref;
+    @Column(name = "book_id", nullable = false)
+    private int ref;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", insertable = false, updatable = false)
+    private BookDTO book;
     private int amount;
     private double price;
     private double discount;
 
     protected OrderDetailJpaDTO() {}
 
-    public OrderDetailJpaDTO(String ref, int amount, double price, double discount) {
-        this.ref = ref;
+    public OrderDetailJpaDTO(int bookId, int amount, double price, double discount) {
+        this.ref = bookId;
         this.amount = amount;
         this.price = price;
         this.discount = discount;
     }
 
-    public void setOrder(OrderJpaDTO order) { this.order = order; }
-    public String getRef() { return ref; }
+    public int getRef() { return ref; }
+    public int getBookId() { return ref; }
     public int getAmount() { return amount; }
     public double getPrice() { return price; }
     public double getDiscount() { return discount; }
+    public OrderJpaDTO getOrder() { return order; }
+    public BookDTO getBook() { return book; }
+    
+    public void setOrder(OrderJpaDTO order) { this.order = order; }
+    public void setBook(BookDTO book) { this.book = book; }
 }

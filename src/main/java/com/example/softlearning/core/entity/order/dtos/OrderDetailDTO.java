@@ -3,8 +3,8 @@ package com.example.softlearning.core.entity.order.dtos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OrderDetailDTO {
-    @JsonProperty("ref")
-    private String ref;
+    @JsonProperty("bookId")
+    private int bookId;
     @JsonProperty("amount")
     private int amount;
     @JsonProperty("price")
@@ -14,14 +14,14 @@ public class OrderDetailDTO {
 
     public OrderDetailDTO() {}
 
-    public OrderDetailDTO(String ref, int amount, double price, double discount) {
-        this.ref = ref;
+    public OrderDetailDTO(int bookId, int amount, double price, double discount) {
+        this.bookId = bookId;
         this.amount = amount;
         this.price = price;
         this.discount = discount;
     }
 
-    public String getRef() { return ref; }
+    public int getBookId() { return bookId; }
     public int getAmount() { return amount; }
     public double getPrice() { return price; }
     public double getDiscount() { return discount; }

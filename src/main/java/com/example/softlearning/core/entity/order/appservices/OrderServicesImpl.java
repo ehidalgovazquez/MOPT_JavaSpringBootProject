@@ -2,8 +2,12 @@ package com.example.softlearning.core.entity.order.appservices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.softlearning.core.entity.book.dtos.BookDTO;
 import com.example.softlearning.core.entity.order.dtos.OrderDTO;
+import com.example.softlearning.core.entity.order.dtos.OrderDetailJpaDTO;
+import com.example.softlearning.core.entity.order.dtos.OrderJpaDTO;
 import com.example.softlearning.core.entity.order.mappers.OrderJpaMapper;
 import com.example.softlearning.core.entity.order.mappers.OrderMapper;
 import com.example.softlearning.core.entity.order.model.Order;
@@ -13,12 +17,16 @@ import com.example.softlearning.core.entity.sharedkernel.appservices.serializers
 import com.example.softlearning.core.entity.sharedkernel.appservices.serializers.SerializersCatalog;
 import com.example.softlearning.core.entity.sharedkernel.model.exceptions.BuildException;
 import com.example.softlearning.core.entity.sharedkernel.model.exceptions.ServiceException;
+import com.example.softlearning.infrastruture.persistence.jpa.JpaBookRepository;
 
 @Service
 public class OrderServicesImpl implements OrderServices {
 
     @Autowired
     private OrderRepository orderRepository;
+    
+    @Autowired
+    private JpaBookRepository bookRepository;
     
     private Serializer<OrderDTO> serializer;
 
@@ -51,13 +59,24 @@ public class OrderServicesImpl implements OrderServices {
         }
     }
 
+    @Transactional
     protected OrderDTO addOrder(String orderData) throws ServiceException {
         OrderDTO dto = this.checkInputData(orderData);
         if (this.getDTOByRef(dto.getRef()) == null) {
             try {
                 Order model = OrderMapper.DTOToOrder(dto);
+                OrderJpaDTO jpa = OrderJpaMapper.toJpaEntity(model);
+                
+                // Buscar e inyectar los libros en cada detalle
+                for (OrderDetailJpaDTO detail : jpa.getShopcartDetails()) {
+                    BookDTO book = bookRepository.findById(detail.getBookId()).orElse(null);
+                    if (book != null) {
+                        detail.setBook(book);
+                    }
+                }
+                
                 return OrderMapper.OrderToDTO(OrderJpaMapper.toDomain(
-                    orderRepository.save(OrderJpaMapper.toJpaEntity(model))
+                    orderRepository.save(jpa)
                 ));
             } catch (BuildException e) {
                 throw new ServiceException(e.getMessage());
@@ -66,13 +85,24 @@ public class OrderServicesImpl implements OrderServices {
         throw new ServiceException("Order " + dto.getRef() + " already exists");
     }
 
+    @Transactional
     protected OrderDTO updateOrder(String orderData) throws ServiceException {
         OrderDTO dto = this.checkInputData(orderData);
         this.getByRef(dto.getRef()); 
         try {
             Order model = OrderMapper.DTOToOrder(dto);
+            OrderJpaDTO jpa = OrderJpaMapper.toJpaEntity(model);
+            
+            // Buscar e inyectar los libros en cada detalle
+            for (OrderDetailJpaDTO detail : jpa.getShopcartDetails()) {
+                BookDTO book = bookRepository.findById(detail.getBookId()).orElse(null);
+                if (book != null) {
+                    detail.setBook(book);
+                }
+            }
+            
             return OrderMapper.OrderToDTO(OrderJpaMapper.toDomain(
-                orderRepository.save(OrderJpaMapper.toJpaEntity(model))
+                orderRepository.save(jpa)
             ));
         } catch (BuildException e) {
             throw new ServiceException(e.getMessage());

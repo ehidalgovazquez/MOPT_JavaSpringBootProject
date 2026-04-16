@@ -1,0 +1,86 @@
+### Crear orden con detalles (JSON)
+POST http://localhost:8080/softlearning/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD002",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Primer pedido de prueba",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "shopcartDetails": [
+    {
+      "bookId": 137,
+      "amount": 2,
+      "price": 29.99,
+      "discount": 0.10
+    },
+    {
+      "bookId": 138,
+      "amount": 1,
+      "price": 39.99,
+      "discount": 0.05
+    }
+  ]
+}
+
+### Obtener orden por referencia
+GET http://localhost:8080/softlearning/orders/ORD001
+Accept: application/json
+
+### Crear otra orden (con libro existente)
+POST http://localhost:8080/softlearning/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD002",
+  "idClient": 1002,
+  "startDate": "2026-04-16",
+  "description": "Segunda orden",
+  "address": "Avenida Central 20",
+  "name": "Ana Garcia",
+  "phone": "677889900",
+  "paymentDate": null,
+  "physicalData": null,
+  "deliveryDate": null,
+  "finishDate": null,
+  "shopcartDetails": [
+    {
+      "bookId": 139,
+      "amount": 3,
+      "price": 25.50,
+      "discount": 0.15
+    }
+  ]
+}
+
+### Actualizar orden existente
+PUT http://localhost:8080/softlearning/orders/ORD001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16",
+  "description": "Pedido actualizado",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "paymentDate": null,
+  "physicalData": "Updated physical data",
+  "deliveryDate": null,
+  "finishDate": null,
+  "shopcartDetails": [
+    {
+      "bookId": 137,
+      "amount": 5,
+      "price": 29.99,
+      "discount": 0.20
+    }
+  ]
+}
