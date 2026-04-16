@@ -19,8 +19,6 @@ public class ClientServicesImpl implements ClientServices {
     private ClientRepository clientRepository;
     private Serializer<ClientDTO> serializer;
 
-    // Implementando métodos auxiliares protegidos que son mas específicos
-
     protected ClientDTO getDTOById(int id)  {
         return clientRepository.findById(id).orElse(null);
     }

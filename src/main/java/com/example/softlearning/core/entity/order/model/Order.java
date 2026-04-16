@@ -17,9 +17,9 @@ public class Order extends Operation implements Storable {
     protected int idClient;
     protected String receiverAddress, receiverPerson, address, name;
     protected LocalDateTime paymentDate, deliveryDate;
-    protected Set<String> phoneContact; // No admite duplicados
+    protected Set<String> phoneContact;
     protected ArrayList<OrderDetail> shopCart;
-    protected PhysicalData packageInfo;
+    protected PhysicalData packageInfo = null;
     protected OrderStatus status;
 
     protected Order() {
@@ -78,6 +78,7 @@ public class Order extends Operation implements Storable {
 
     protected String OrderDataValidation(String ref, int idClient, String startDate, String description, String address, String name, String phone, String shopcartDetails, String paymentDate, String packageInfo, String deliveryDate, String finishDate) {
         String errorMessage = OrderDataValidation(ref, idClient, startDate, description, address, name, phone);
+        
         if(shopcartDetails != null){
             try {
                 setShopcartDetails(shopcartDetails);
@@ -86,7 +87,7 @@ public class Order extends Operation implements Storable {
             }
         }
 
-        if(paymentDate != null){
+        if(paymentDate != null) {
             try {
                 setPaymentDate(paymentDate);
             } catch (GeneralDateTimeException ex) {
@@ -361,7 +362,7 @@ public class Order extends Operation implements Storable {
             return null;
         }
 
-        return this.paymentDate.format(formatter);
+        return this.paymentDate.format(OUTPUT_FORMATTER);
     }
 
     public void setPaymentDate(String paymentDate) throws GeneralDateTimeException {
@@ -373,12 +374,7 @@ public class Order extends Operation implements Storable {
             throw new GeneralDateTimeException("HEMOS RECIBIDO UN NULL EN LUGAR DE UNA FECHA");
         }
 
-        try{
-            this.paymentDate = LocalDateTime.parse(paymentDate,formatter);
-        } catch (GeneralDateTimeException e) {
-            throw e;
-        }
-
+        this.paymentDate = parseDateTime(paymentDate);
         this.status = OrderStatus.CONFIRMED;
     }
 
@@ -396,7 +392,7 @@ public class Order extends Operation implements Storable {
         if(this.deliveryDate == null){
             return null;
         }
-        return this.deliveryDate.format(formatter);
+        return this.deliveryDate.format(OUTPUT_FORMATTER);
     }
 
     public void setDeliveryDate(String deliveryDate) throws GeneralDateTimeException {
@@ -408,12 +404,7 @@ public class Order extends Operation implements Storable {
             throw new GeneralDateTimeException("HEMOS RECIBIDO UN NULL EN LUGAR DE UNA FECHA");
         }
 
-        try{
-            this.deliveryDate = LocalDateTime.parse(deliveryDate,formatter);
-        } catch (GeneralDateTimeException e) {
-            throw e;
-        }
-
+        this.deliveryDate = parseDateTime(deliveryDate);
         this.status = OrderStatus.DELIVERED;
     }
 
@@ -431,6 +422,10 @@ public class Order extends Operation implements Storable {
     
     @Override
     public String getPhysicalData() {
+        if (this.packageInfo == null) {
+            return null;
+        }
+        
         return this.packageInfo.getPhysicalData();
     }
 

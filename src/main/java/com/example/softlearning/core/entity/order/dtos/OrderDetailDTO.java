@@ -4,46 +4,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OrderDetailDTO {
     @JsonProperty("ref")
-    public String ref;
-
+    private String ref;
     @JsonProperty("amount")
-    public int amount;
-
+    private int amount;
     @JsonProperty("price")
-    public double price;
-
+    private double price;
     @JsonProperty("discount")
-    public double discount;
+    private double discount;
 
-    protected  OrderDetailDTO() {
-        
-    }
+    public OrderDetailDTO() {}
 
-    public OrderDetailDTO(
-        String ref,
-        int amount,
-        double price,
-        double discount
-    ) {
+    public OrderDetailDTO(String ref, int amount, double price, double discount) {
         this.ref = ref;
         this.amount = amount;
         this.price = price;
         this.discount = discount;
     }
 
-    public String getRef() {
-        return ref;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public double getDiscount() {
-        return discount;
-    }
+    public String getRef() { return ref; }
+    public int getAmount() { return amount; }
+    public double getPrice() { return price; }
+    public double getDiscount() { return discount; }
 }

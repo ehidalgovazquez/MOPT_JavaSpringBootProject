@@ -181,6 +181,6 @@ public class PhysicalData {
     }
 
     public String getPhysicalData() {
-        return "weight:" + this.weight + "height:" + this.height + ",width:" + this.width + ",depth:" + this.depth + ",isFragile:" + this.isFragile;
+        return "weight:" + this.weight + ";height:" + this.height + ";width:" + this.width + ";depth:" + this.depth + ";isFragile:" + this.isFragile;
     }
 }
