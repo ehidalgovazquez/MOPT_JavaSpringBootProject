@@ -76,6 +76,16 @@ public class Order extends Operation implements Storable {
         return o;
     }
 
+    public static Order getInstance(String ref, int idClient, String startDate, String description, String address, String name, String phone, String shopcartDetails, String paymentDate, String packageInfo, String deliveryDate, String finishDate, String statusString) throws BuildException {
+        Order o = new Order();
+        o.setStatusFromDatabase(statusString);
+        String errorMessage = o.OrderDataValidation(ref, idClient, startDate, description, address, name, phone, shopcartDetails, paymentDate, packageInfo, deliveryDate, finishDate);
+        if(!errorMessage.isEmpty()){
+            throw new BuildException (errorMessage);
+        }
+        return o;
+    }
+
     protected String OrderDataValidation(String ref, int idClient, String startDate, String description, String address, String name, String phone, String shopcartDetails, String paymentDate, String packageInfo, String deliveryDate, String finishDate) {
         String errorMessage = OrderDataValidation(ref, idClient, startDate, description, address, name, phone);
         
@@ -128,6 +138,16 @@ public class Order extends Operation implements Storable {
 
     public void orderCancelled() {
         this.status = OrderStatus.CANCELLED;
+    }
+    
+    public void setStatusFromDatabase(String statusString) {
+        if (statusString != null && !statusString.isEmpty()) {
+            try {
+                this.status = OrderStatus.valueOf(statusString);
+            } catch (IllegalArgumentException e) {
+                this.status = OrderStatus.CREATED;
+            }
+        }
     }
    
     public int getIdClient() {
@@ -380,7 +400,7 @@ public class Order extends Operation implements Storable {
 
     public void setPackageInfo(String packageinfo) throws BuildException {
         if(this.status != OrderStatus.CONFIRMED){
-            throw new BuildException("Status differs to Confirmed");
+            throw new BuildException("Status differs to CONFIRMED");
         }
 
         this.packageInfo = PhysicalData.getInstance(packageinfo);
@@ -397,7 +417,7 @@ public class Order extends Operation implements Storable {
 
     public void setDeliveryDate(String deliveryDate) throws GeneralDateTimeException {
         if(this.status != OrderStatus.FORTHCOMMING){
-            throw new GeneralDateTimeException("Order status differs to confirmed");
+            throw new GeneralDateTimeException("Order status differs to FORTHCOMMING");
         }
 
         if(deliveryDate == null){
@@ -411,7 +431,7 @@ public class Order extends Operation implements Storable {
     @Override
     public void setFinishDate(String finishDate) throws GeneralDateTimeException {
         if(this.status != OrderStatus.DELIVERED) {
-            throw new GeneralDateTimeException("Order Status differs to Delivered");
+            throw new GeneralDateTimeException("Order Status differs to DELIVERED");
         }
 
         super.setFinishDate(finishDate); 

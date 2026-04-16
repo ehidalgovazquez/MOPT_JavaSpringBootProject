@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.softlearning.core.entity.order.dtos.OrderDetailJpaDTO;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
@@ -56,7 +57,9 @@ public class BookDTO {
     @Column(name = "is_fragile")
     private boolean isFragile;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "book")
+    // Para evitar la recursividad infinita al serializar el libro con sus detalles de pedido, se ignora la propiedad orderDetails
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "book")
     private List<OrderDetailJpaDTO> orderDetails = new ArrayList<>();
 
     public BookDTO() {

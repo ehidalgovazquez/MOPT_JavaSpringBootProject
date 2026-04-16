@@ -1,6 +1,7 @@
 package com.example.softlearning.core.entity.order.dtos;
 
 import com.example.softlearning.core.entity.book.dtos.BookDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,14 +20,15 @@ public class OrderDetailJpaDTO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_ref", nullable = false)
     private OrderJpaDTO order;
 
     @Column(name = "book_id", nullable = false)
     private int ref;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id", insertable = false, updatable = false)
     private BookDTO book;
     private int amount;

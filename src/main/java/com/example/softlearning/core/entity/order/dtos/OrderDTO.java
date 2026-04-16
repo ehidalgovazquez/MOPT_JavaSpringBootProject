@@ -2,6 +2,7 @@ package com.example.softlearning.core.entity.order.dtos;
 
 import java.util.List;
 
+import com.example.softlearning.core.entity.client.dtos.ClientDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -13,6 +14,8 @@ public class OrderDTO {
     private String ref;
     @JsonProperty("idClient")
     private int idClient;
+    @JsonProperty("client")
+    private ClientDTO client;
     @JsonProperty("startDate")
     private String startDate;
     @JsonProperty("description")
@@ -41,8 +44,13 @@ public class OrderDTO {
     public OrderDTO() {}
 
     public OrderDTO(String ref, int idClient, String startDate, String description, String address, String name, String phone, List<OrderDetailDTO> shopcartDetails, String paymentDate, String physicalData, String deliveryDate, String finishDate) {
+        this(ref, idClient, null, startDate, description, address, name, phone, shopcartDetails, paymentDate, physicalData, deliveryDate, finishDate);
+    }
+
+    public OrderDTO(String ref, int idClient, com.example.softlearning.core.entity.client.dtos.ClientDTO client, String startDate, String description, String address, String name, String phone, List<OrderDetailDTO> shopcartDetails, String paymentDate, String physicalData, String deliveryDate, String finishDate) {
         this.ref = ref;
         this.idClient = idClient;
+        this.client = client;
         this.startDate = startDate;
         this.description = description;
         this.address = address;
@@ -57,6 +65,7 @@ public class OrderDTO {
 
     public String getRef() { return ref; }
     public int getIdClient() { return idClient; }
+    public com.example.softlearning.core.entity.client.dtos.ClientDTO getClient() { return client; }
     public String getStartDate() { return startDate; }
     public String getDescription() { return description; }
     public String getAddress() { return address; }

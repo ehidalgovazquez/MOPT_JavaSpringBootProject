@@ -1,4 +1,31 @@
-### Crear orden con detalles (JSON)
+### ============================================
+### 1. CREAR ÓRDENES (POST)
+### ============================================
+
+### 1.1 Crear orden con 1 detalle (Libro 1: Clean Code x 2)
+POST http://localhost:8080/softlearning/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Primer pedido - Libros de programación",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.10
+    }
+  ]
+}
+
+### 1.2 Crear orden con múltiples detalles (Libro 1 + Libro 2)
 POST http://localhost:8080/softlearning/orders
 Content-Type: application/json
 Accept: application/json
@@ -6,59 +33,83 @@ Accept: application/json
 {
   "ref": "ORD002",
   "idClient": 1001,
-  "startDate": "2026-04-16 18:30:00",
-  "description": "Primer pedido de prueba",
+  "startDate": "2026-04-17 10:00:00",
+  "description": "Segundo pedido - Compra variada",
   "address": "Calle Mayor 10",
   "name": "Juan Perez",
   "phone": "600112233",
   "shopcartDetails": [
     {
-      "bookId": 137,
-      "amount": 2,
-      "price": 29.99,
-      "discount": 0.10
-    },
-    {
-      "bookId": 138,
+      "bookId": 1,
       "amount": 1,
       "price": 39.99,
       "discount": 0.05
-    }
-  ]
-}
-
-### Obtener orden por referencia
-GET http://localhost:8080/softlearning/orders/ORD001
-Accept: application/json
-
-### Crear otra orden (con libro existente)
-POST http://localhost:8080/softlearning/orders
-Content-Type: application/json
-Accept: application/json
-
-{
-  "ref": "ORD002",
-  "idClient": 1002,
-  "startDate": "2026-04-16",
-  "description": "Segunda orden",
-  "address": "Avenida Central 20",
-  "name": "Ana Garcia",
-  "phone": "677889900",
-  "paymentDate": null,
-  "physicalData": null,
-  "deliveryDate": null,
-  "finishDate": null,
-  "shopcartDetails": [
+    },
     {
-      "bookId": 139,
+      "bookId": 2,
       "amount": 3,
-      "price": 25.50,
+      "price": 24.99,
       "discount": 0.15
     }
   ]
 }
 
-### Actualizar orden existente
+### 1.3 Crear orden con XML
+POST http://localhost:8080/softlearning/orders
+Content-Type: application/xml
+Accept: application/xml
+
+<order>
+    <ref>ORD003</ref>
+    <idClient>1001</idClient>
+    <startDate>2026-04-18T09:15:00</startDate>
+    <description>Tercer pedido - Formato XML</description>
+    <address>Calle Mayor 10</address>
+    <name>Juan Perez</name>
+    <phone>600112233</phone>
+    <shopcartDetails>
+        <orderDetail>
+            <bookId>2</bookId>
+            <amount>2</amount>
+            <price>24.99</price>
+            <discount>0.20</discount>
+        </orderDetail>
+    </shopcartDetails>
+</order>
+
+### ============================================
+### 2. OBTENER ÓRDENES (GET)
+### ============================================
+
+### 2.1 Obtener orden ORD001 (JSON)
+GET http://localhost:8080/softlearning/orders/ORD001
+Accept: application/json
+
+### 2.2 Obtener orden ORD001 (XML)
+GET http://localhost:8080/softlearning/orders/ORD001
+Accept: application/xml
+
+### 2.3 Obtener orden ORD002 (JSON)
+GET http://localhost:8080/softlearning/orders/ORD002
+Accept: application/json
+
+### 2.4 Obtener orden ORD002 (XML)
+GET http://localhost:8080/softlearning/orders/ORD002
+Accept: application/xml
+
+### 2.5 Obtener orden ORD003 (JSON)
+GET http://localhost:8080/softlearning/orders/ORD003
+Accept: application/json
+
+### 2.6 Obtener orden ORD003 (XML)
+GET http://localhost:8080/softlearning/orders/ORD003
+Accept: application/xml
+
+### ============================================
+### 3. ACTUALIZAR ÓRDENES (PUT)
+### ============================================
+
+### 3.1 Actualizar ORD001: Cambiar detalles (JSON)
 PUT http://localhost:8080/softlearning/orders/ORD001
 Content-Type: application/json
 Accept: application/json
@@ -66,21 +117,299 @@ Accept: application/json
 {
   "ref": "ORD001",
   "idClient": 1001,
-  "startDate": "2026-04-16",
-  "description": "Pedido actualizado",
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Pedido actualizado - Nueva cantidad",
   "address": "Calle Mayor 10",
   "name": "Juan Perez",
   "phone": "600112233",
-  "paymentDate": null,
-  "physicalData": "Updated physical data",
-  "deliveryDate": null,
-  "finishDate": null,
   "shopcartDetails": [
     {
-      "bookId": 137,
-      "amount": 5,
-      "price": 29.99,
-      "discount": 0.20
+      "bookId": 1,
+      "amount": 3,
+      "price": 39.99,
+      "discount": 0.15
+    }
+  ]
+}
+
+### 3.2 Actualizar ORD002: Agregar otro libro (JSON)
+PUT http://localhost:8080/softlearning/orders/ORD002
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD002",
+  "idClient": 1001,
+  "startDate": "2026-04-17 10:00:00",
+  "description": "Pedido actualizado - Agregar detalle",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.05
+    },
+    {
+      "bookId": 2,
+      "amount": 4,
+      "price": 24.99,
+      "discount": 0.15
+    }
+  ]
+}
+
+### 3.3 Actualizar ORD003: Cambiar con XML
+PUT http://localhost:8080/softlearning/orders/ORD003
+Content-Type: application/xml
+Accept: application/xml
+
+<order>
+    <ref>ORD003</ref>
+    <idClient>1001</idClient>
+    <startDate>2026-04-18T09:15:00</startDate>
+    <description>Pedido actualizado - XML</description>
+    <address>Calle Mayor 10</address>
+    <name>Juan Perez</name>
+    <phone>600112233</phone>
+    <shopcartDetails>
+        <orderDetail>
+            <bookId>1</bookId>
+            <amount>5</amount>
+            <price>39.99</price>
+            <discount>0.25</discount>
+        </orderDetail>
+        <orderDetail>
+            <bookId>2</bookId>
+            <amount>2</amount>
+            <price>24.99</price>
+            <discount>0.10</discount>
+        </orderDetail>
+    </shopcartDetails>
+</order>
+
+### 3.4 Verificar actualización de ORD001
+GET http://localhost:8080/softlearning/orders/ORD001
+Accept: application/json
+
+### ============================================
+### 4. ELIMINAR ÓRDENES (DELETE)
+### ============================================
+
+### 4.1 Eliminar orden ORD001
+DELETE http://localhost:8080/softlearning/orders/ORD001
+
+### 4.2 Eliminar orden ORD002
+DELETE http://localhost:8080/softlearning/orders/ORD002
+
+### 4.3 Eliminar orden ORD003
+DELETE http://localhost:8080/softlearning/orders/ORD003
+
+### ============================================
+### 5. CASOS DE ERROR - VALIDACIÓN DE ESTADOS
+### ============================================
+
+### 5.1 ERROR: Intentar poner physicalData sin tener paymentDate (status debe ser CONFIRMED)
+PUT http://localhost:8080/softlearning/orders/ORD001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Intento de poner physicalData sin paymentDate",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "physicalData": "weight:2.5;height:5.0;width:35.0;depth:25.0;isFragile:true",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.10
+    }
+  ]
+}
+
+### 5.2 ERROR: Intentar poner deliveryDate sin tener physicalData (status debe ser FORTHCOMMING)
+PUT http://localhost:8080/softlearning/orders/ORD001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Intento de poner deliveryDate sin physicalData",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "paymentDate": "2026-04-15 18:50:00",
+  "deliveryDate": "2026-04-18 14:30:00",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.10
+    }
+  ]
+}
+
+### 5.3 ERROR: Intentar poner finishDate sin tener deliveryDate (status debe ser DELIVERED)
+PUT http://localhost:8080/softlearning/orders/ORD001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Intento de poner finishDate sin deliveryDate",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "paymentDate": "2026-04-15 18:50:00",
+  "physicalData": "weight:2.5;height:5.0;width:35.0;depth:25.0;isFragile:true",
+  "finishDate": "2026-04-18 16:45:00",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.10
+    }
+  ]
+}
+
+### =============================================
+### 6 FLUJO CORRECTO (Sin errores - Secuencia correcta de estados):
+### =============================================
+### 6.1: Crear orden (estado CREATED)
+POST http://localhost:8080/softlearning/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Orden para prueba de flujo correcto",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.10
+    }
+  ]
+}
+
+### 6.2: Poner paymentDate (status: CREATED → CONFIRMED)
+PUT http://localhost:8080/softlearning/orders/ORD001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Orden para prueba de flujo correcto",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "paymentDate": "2026-04-16 19:00:00",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.10
+    }
+  ]
+}
+
+### 6.3: Poner physicalData (status: CONFIRMED → FORTHCOMMING)
+PUT http://localhost:8080/softlearning/orders/ORD001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Orden para prueba de flujo correcto",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "paymentDate": "2026-04-16 19:00:00",
+  "physicalData": "weight:2.5;height:5.0;width:35.0;depth:25.0;isFragile:true",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.10
+    }
+  ]
+}
+
+### 6.4: Poner deliveryDate (status: FORTHCOMMING → DELIVERED)
+PUT http://localhost:8080/softlearning/orders/ORD001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Orden para prueba de flujo correcto",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "paymentDate": "2026-04-16 19:00:00",
+  "physicalData": "weight:2.5;height:5.0;width:35.0;depth:25.0;isFragile:true",
+  "deliveryDate": "2026-04-18 14:30:00",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.10
+    }
+  ]
+}
+
+### 6.5: Poner finishDate (status: DELIVERED → FINISHED)
+PUT http://localhost:8080/softlearning/orders/ORD001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref": "ORD001",
+  "idClient": 1001,
+  "startDate": "2026-04-16 18:30:00",
+  "description": "Orden para prueba de flujo correcto",
+  "address": "Calle Mayor 10",
+  "name": "Juan Perez",
+  "phone": "600112233",
+  "paymentDate": "2026-04-16 19:00:00",
+  "physicalData": "weight:2.5;height:5.0;width:35.0;depth:25.0;isFragile:true",
+  "deliveryDate": "2026-04-18 14:30:00",
+  "finishDate": "2026-04-18 16:45:00",
+  "shopcartDetails": [
+    {
+      "bookId": 1,
+      "amount": 2,
+      "price": 39.99,
+      "discount": 0.10
     }
   ]
 }

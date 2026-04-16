@@ -4,11 +4,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.softlearning.core.entity.client.dtos.ClientDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -17,6 +21,12 @@ import jakarta.persistence.Table;
 public class OrderJpaDTO {
     @Id
     private String ref;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_client", insertable = false, updatable = false)
+    private ClientDTO client;
+    
+    @Column(name = "id_client")
     private int idClient;
     private String startDate;
     private String description;
@@ -34,7 +44,7 @@ public class OrderJpaDTO {
     
     private LocalDateTime deliveryDate;
     private LocalDateTime finishDate;
-
+    
     protected OrderJpaDTO() {}
 
     public OrderJpaDTO(String ref, int idClient, String startDate, String description, String address, String name, String phone, LocalDateTime paymentDate, String physicalData, LocalDateTime deliveryDate, LocalDateTime finishDate) {
@@ -58,6 +68,8 @@ public class OrderJpaDTO {
 
     public String getRef() { return ref; }
     public int getIdClient() { return idClient; }
+    public ClientDTO getClient() { return client; }
+    public void setClient(ClientDTO client) { this.client = client; }
     public String getStartDate() { return startDate; }
     public String getDescription() { return description; }
     public String getAddress() { return address; }

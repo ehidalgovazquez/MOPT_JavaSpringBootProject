@@ -46,12 +46,14 @@ public class OrderJpaMapper {
             }
         }
 
-        return Order.getInstance(
+        Order order = Order.getInstance(
             jpa.getRef(), jpa.getIdClient(), jpa.getStartDate(), jpa.getDescription(), 
             jpa.getAddress(), jpa.getName(), jpa.getPhone(), sb.toString(), 
             formatDate(jpa.getPaymentDate()), jpa.getPhysicalData(), 
             formatDate(jpa.getDeliveryDate()), formatDate(jpa.getFinishDate())
         );
+        
+        return order;
     }
 
     private static LocalDateTime parseDate(String dateStr) {

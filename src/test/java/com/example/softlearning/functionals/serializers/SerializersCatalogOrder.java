@@ -8,7 +8,6 @@ import com.example.softlearning.core.entity.sharedkernel.appservices.serializers
 import com.example.softlearning.core.entity.sharedkernel.appservices.serializers.Serializers;
 import com.example.softlearning.core.entity.sharedkernel.appservices.serializers.SerializersCatalog;
 import com.example.softlearning.core.entity.sharedkernel.model.exceptions.ServiceException;
-import com.example.softlearning.core.entity.sharedkernel.model.physicals.dtos.PhysicalDataDTO;
 
 public class SerializersCatalogOrder {
         public static void main(String[] args) {
@@ -25,7 +24,7 @@ public class SerializersCatalogOrder {
                                 add(new OrderDetailDTO(2, 1, 9.99, 1.0));
                         }},
                         "2024-06-02",
-                        new PhysicalDataDTO(1.5, 20.0, 15.0, 5.0),
+                        "width: 1; height: 2; depth: 3; weight: 4; isFragile: true",
                         "2024-06-03",
                         "2024-06-04"
                 );

@@ -1,6 +1,8 @@
-# He utilizado la extension REST Client de VSCode para probar las APIs RESTful y poder ejecutar las pruebas.
+### ============================================
+### 1. CREAR LIBROS (POST)
+### ============================================
 
-### Crear libro (JSON)
+### 1.1 Crear Libro 1: Clean Code (JSON)
 POST http://localhost:8080/softlearning/books
 Content-Type: application/json
 Accept: application/json
@@ -20,11 +22,7 @@ Accept: application/json
   "isFragile": false
 }
 
-### Obtener un libro por ID (XML)
-GET http://localhost:8080/softlearning/books/1
-Accept: application/xml
-
-### Crear libro (XML)
+### 1.2 Crear Libro 2: Don Quijote de la Mancha (XML)
 POST http://localhost:8080/softlearning/books
 Content-Type: application/xml
 Accept: application/xml
@@ -44,19 +42,47 @@ Accept: application/xml
     <isFragile>false</isFragile>
 </book>
 
-### Obtener un libro por ID (JSON)
+### ============================================
+### 2. OBTENER LIBROS (GET)
+### ============================================
+
+### 2.1 Obtener todos los libros (JSON)
+GET http://localhost:8080/softlearning/books
+Accept: application/json
+
+### 2.2 Obtener todos los libros (XML)
+GET http://localhost:8080/softlearning/books
+Accept: application/xml
+
+### 2.3 Obtener Libro por ID 1 (JSON)
+GET http://localhost:8080/softlearning/books/1
+Accept: application/json
+
+### 2.4 Obtener Libro por ID 1 (XML)
+GET http://localhost:8080/softlearning/books/1
+Accept: application/xml
+
+### 2.5 Obtener Libro por ID 2 (JSON)
 GET http://localhost:8080/softlearning/books/2
 Accept: application/json
 
-### Actualizar libro (JSON)
+### 2.6 Obtener Libro por ID 2 (XML)
+GET http://localhost:8080/softlearning/books/2
+Accept: application/xml
+
+### ============================================
+### 3. ACTUALIZAR LIBROS (PUT)
+### ============================================
+
+### 3.1 Actualizar Libro 1: Cambiar precio y nombre (JSON)
 PUT http://localhost:8080/softlearning/books/1
 Content-Type: application/json
 Accept: application/json
 
 {
   "id": 1,
-  "name": "Clean Code - Edicion Revisada",
-  "price": 40.0,
+  "name": "Clean Code - Edicion Especial",
+  "price": 39.99,
   "available": true,
   "author": "Robert C. Martin",
   "publicationDate": "2008-08-01",
@@ -68,36 +94,60 @@ Accept: application/json
   "isFragile": false
 }
 
-### Obtener un libro por ID (JSON)
-GET http://localhost:8080/softlearning/books/1
-Accept: application/json
-
-### Actualizar libro (XML)
+### 3.2 Actualizar Libro 2: Cambiar precio y marcar como frágil (XML)
 PUT http://localhost:8080/softlearning/books/2
 Content-Type: application/xml
 Accept: application/xml
 
 <book>
     <id>2</id>
-    <name>Don Quijote - Edicion Especial</name>
-    <price>45.00</price>
+    <name>Don Quijote de la Mancha - Edicion Vintage</name>
+    <price>24.99</price>
     <available>true</available>
     <author>Miguel de Cervantes</author>
     <publicationDate>1605-01-16</publicationDate>
-    <availabilityDate>2024-05-10</availabilityDate>
-    <weight>1.5</weight>
-    <width>18.0</width>
-    <height>26.0</height>
-    <depth>6.0</depth>
+    <availabilityDate>2024-02-01</availabilityDate>
+    <weight>1.2</weight>
+    <width>16.0</width>
+    <height>24.0</height>
+    <depth>5.0</depth>
     <isFragile>true</isFragile>
 </book>
 
-### Obtener un libro por ID (XML)
+### 3.3 Verificar actualización del Libro 1 (JSON)
+GET http://localhost:8080/softlearning/books/1
+Accept: application/json
+
+### 3.4 Verificar actualización del Libro 2 (JSON)
 GET http://localhost:8080/softlearning/books/2
+Accept: application/json
+
+### ============================================
+### 4. BÚSQUEDAS CON FILTROS
+### ============================================
+
+### 4.1 Buscar libros por nombre: "Clean" (JSON)
+GET http://localhost:8080/softlearning/books/search?name=Clean
+Accept: application/json
+
+### 4.2 Buscar libros por autor: "Cervantes" (JSON)
+GET http://localhost:8080/softlearning/books/search?author=Cervantes
+Accept: application/json
+
+### 4.3 Buscar libros por precio máximo: 30 (JSON)
+GET http://localhost:8080/softlearning/books/search?maxPrice=30
+Accept: application/json
+
+### 4.4 Búsqueda combinada: nombre y precio máximo (XML)
+GET http://localhost:8080/softlearning/books/search?name=Don&maxPrice=25
 Accept: application/xml
 
-### Borrar libro 1
+### ============================================
+### 5. ELIMINAR LIBRO (solo para prueba, no recomendado si se usa en órdenes)
+### ============================================
+
+### 5.1 Borrar libro 1
 DELETE http://localhost:8080/softlearning/books/1
 
-### Borrar libro 2
+### 5.2 Borrar libro 2
 DELETE http://localhost:8080/softlearning/books/2

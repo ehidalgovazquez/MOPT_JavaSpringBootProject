@@ -8,4 +8,5 @@ public interface OrderRepository {
     public Optional<OrderJpaDTO> findById(String ref);
     public OrderJpaDTO save(OrderJpaDTO order);
     public void deleteById(String ref);
+    public void delete(OrderJpaDTO entity);
 }
