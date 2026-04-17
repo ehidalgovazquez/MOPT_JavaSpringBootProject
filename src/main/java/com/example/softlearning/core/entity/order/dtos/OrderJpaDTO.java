@@ -34,7 +34,7 @@ public class OrderJpaDTO {
     private String name;
     private String phone;
     
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<OrderDetailJpaDTO> shopcartDetails = new ArrayList<>();
     
     private LocalDateTime paymentDate;

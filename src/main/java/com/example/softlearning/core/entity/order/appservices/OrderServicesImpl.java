@@ -72,12 +72,10 @@ public class OrderServicesImpl implements OrderServices {
                 Order model = OrderMapper.DTOToOrder(dto);
                 OrderJpaDTO jpa = OrderJpaMapper.toJpaEntity(model);
                 
-                // Validar que el cliente exista
                 if (!clientRepository.existsById(jpa.getIdClient())) {
                     throw new ServiceException("Client with id " + jpa.getIdClient() + " not found");
                 }
                 
-                // Validar que todos los libros existan ANTES de guardar
                 for (OrderDetailJpaDTO detail : jpa.getShopcartDetails()) {
                     if (!bookRepository.existsById(detail.getBookId())) {
                         throw new ServiceException("Book with id " + detail.getBookId() + " not found");
@@ -95,17 +93,21 @@ public class OrderServicesImpl implements OrderServices {
     }
 
     @Transactional
-    protected OrderDTO updateOrder(String orderData) throws ServiceException {
-        OrderDTO dto = this.checkInputData(orderData);
-        OrderJpaDTO existing = orderRepository.findById(dto.getRef()).get();
+    protected OrderDTO updateOrder(String ref, String orderData) throws ServiceException {
+        OrderJpaDTO existing = orderRepository.findById(ref).orElse(null);
         if (existing == null) {
-            throw new ServiceException("Order " + dto.getRef() + " not found");
+            throw new ServiceException("Order " + ref + " not found");
         }
+        OrderDTO dto = this.checkInputData(orderData);
 
         String existingStatus = existing.getStatus();
         String incomingStatus = dto.getStatus();
         
         if(incomingStatus != null ) {
+            if(incomingStatus.equals("FINISHED")){
+                throw new ServiceException("Cannot change order data from status FINISHED");
+            }
+            
             if(!"CREATED".equals(incomingStatus) && !"CANCELLED".equals(incomingStatus) && !"CONFIRMED".equals(incomingStatus) && !"FORTHCOMMING".equals(incomingStatus) && !"DELIVERED".equals(incomingStatus) && !"FINISHED".equals(incomingStatus)) {
                 throw new ServiceException("Invalid status value: " + incomingStatus + "");
             }
@@ -118,89 +120,85 @@ public class OrderServicesImpl implements OrderServices {
         String errorMessage = "";
         if(!existingStatus.equals("CREATED")) {
             if(!dto.getRef().equals(existing.getRef())) {
-                errorMessage += "reference,";
+                errorMessage += " reference,";
             }
 
             if(dto.getIdClient() != existing.getIdClient()) {
-                errorMessage += "idClient,";
+                errorMessage += " idClient,";
             }
 
             if (!Objects.equals(dto.getStartDate(), existing.getStartDate())) {
-                errorMessage += "startDate,";
+                errorMessage += " startDate,";
             }
 
             if (!Objects.equals(dto.getDescription(), existing.getDescription())) {
-                errorMessage += "description,";
+                errorMessage += " description,";
             }
 
             if (!Objects.equals(dto.getAddress(), existing.getAddress())) {
-                errorMessage += "address,";
+                errorMessage += " address,";
             }
 
             if (!Objects.equals(dto.getName(), existing.getName())) {
-                errorMessage += "name,";
+                errorMessage += " name,";
             }
 
             if (!Objects.equals(dto.getPhone(), existing.getPhone())) {
-                errorMessage += "phone,";
+                errorMessage += " phone,";
             }
 
             if(!shopcartDetailsMatch(dto.getShopcartDetails(), existing.getShopcartDetails())) {
-                errorMessage += "shopcartDetails, ";
+                errorMessage += " shopcartDetails,";
             }
             
             if(!datesMatch(dto.getPaymentDate(), existing.getPaymentDate())) {
-                errorMessage += "paymentDate, ";
+                errorMessage += " paymentDate,";
             }
 
-            // physicalData solo se puede modificar en CONFIRMED
             if (!Objects.equals(dto.getPhysicalData(), existing.getPhysicalData()) && !existingStatus.equals("CONFIRMED")) {
-                errorMessage += "physicalData,";
+                errorMessage += " physicalData,";
             }
 
-            // deliveryDate solo se puede modificar en FORTHCOMMING
             if (!datesMatch(dto.getDeliveryDate(), existing.getDeliveryDate()) && !existingStatus.equals("FORTHCOMMING")) {
-                errorMessage += "deliveryDate,";
+                errorMessage += " deliveryDate,";
             }
 
-            // finishDate solo se puede modificar en DELIVERED
             if (!datesMatch(dto.getFinishDate(), existing.getFinishDate()) && !existingStatus.equals("DELIVERED")) {
-                errorMessage += "finishDate,";
+                errorMessage += " finishDate,";
             }
 
             if(!Objects.equals(dto.getStatus(), existing.getStatus())) {
-                errorMessage += "status, ";
+                errorMessage += " status,";
             }
         }
 
         if(!errorMessage.equals("")) {
-            throw new ServiceException("Cannot modify " + errorMessage + "for order in status " + existingStatus);
+            throw new ServiceException("Cannot modify" + errorMessage + "for order in status " + existingStatus);
         }
         
         try {
             Order model = OrderMapper.DTOToOrder(dto);
-            OrderJpaDTO jpa = OrderJpaMapper.toJpaEntity(model);
+            OrderJpaDTO incomingJpa = OrderJpaMapper.toJpaEntity(model);
             
-            // Validar que el cliente exista
-            if (!clientRepository.existsById(jpa.getIdClient())) {
-                throw new ServiceException("Client with id " + jpa.getIdClient() + " not found");
+            if (!clientRepository.existsById(incomingJpa.getIdClient())) {
+                throw new ServiceException("Client with id " + incomingJpa.getIdClient() + " not found");
             }
             
-
-            // Validar que todos los libros existan ANTES de guardar
-            for (OrderDetailJpaDTO detail : jpa.getShopcartDetails()) {
+            for (OrderDetailJpaDTO detail : incomingJpa.getShopcartDetails()) {
                 if (!bookRepository.existsById(detail.getBookId())) {
                     errorMessage += detail.getBookId() + ", ";
                 }
+                detail.setOrder(incomingJpa);
             }
 
             if(!errorMessage.equals("")) {
                 throw new ServiceException("Books with id " + errorMessage + "not found");
             }
-            
+
             return OrderMapper.OrderToDTO(
-                orderRepository.save(jpa)
+                orderRepository.save(incomingJpa)
             );
+
         } catch (BuildException e) {
             throw new ServiceException(e.getMessage());
         }
@@ -231,13 +229,13 @@ public class OrderServicesImpl implements OrderServices {
     @Override
     public String updateOneFromJson(String ref, String orderData) throws ServiceException {
         this.serializer = SerializersCatalog.getInstance(Serializers.JSON_ORDER);
-        return serializer.serialize(this.updateOrder(orderData));
+        return serializer.serialize(this.updateOrder(ref, orderData));
     }
 
     @Override
     public String updateOneFromXml(String ref, String orderData) throws ServiceException {
         this.serializer = SerializersCatalog.getInstance(Serializers.XML_ORDER);
-        return serializer.serialize(this.updateOrder(orderData));
+        return serializer.serialize(this.updateOrder(ref, orderData));
     }
 
     @Transactional
@@ -268,8 +266,6 @@ public class OrderServicesImpl implements OrderServices {
         if (dtoDetails == null || existingDetails == null) return false;
         if (dtoDetails.size() != existingDetails.size()) return false;
 
-        // Aquí asumo que el orden importa o que puedes comprobar uno a uno.
-        // Si el orden puede variar, tendrías que buscar por bookId.
         for (OrderDetailDTO dtoDetail : dtoDetails) {
             boolean foundMatch = existingDetails.stream().anyMatch(existingDetail -> 
                 existingDetail.getBookId() == dtoDetail.getBookId() &&

@@ -31,6 +31,7 @@ public class OrderDetailJpaDTO {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id", insertable = false, updatable = false)
     private BookDTO book;
+    
     private int amount;
     private double price;
     private double discount;
@@ -44,6 +45,7 @@ public class OrderDetailJpaDTO {
         this.discount = discount;
     }
 
+    public int getId() { return id; }
     public int getRef() { return ref; }
     public int getBookId() { return ref; }
     public int getAmount() { return amount; }
