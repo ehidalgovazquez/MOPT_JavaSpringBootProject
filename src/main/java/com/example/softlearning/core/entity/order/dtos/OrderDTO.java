@@ -40,14 +40,16 @@ public class OrderDTO {
     private String deliveryDate;
     @JsonProperty("finishDate")
     private String finishDate;
+    @JsonProperty("status")
+    private String status;
 
     public OrderDTO() {}
 
-    public OrderDTO(String ref, int idClient, String startDate, String description, String address, String name, String phone, List<OrderDetailDTO> shopcartDetails, String paymentDate, String physicalData, String deliveryDate, String finishDate) {
-        this(ref, idClient, null, startDate, description, address, name, phone, shopcartDetails, paymentDate, physicalData, deliveryDate, finishDate);
+    public OrderDTO(String ref, int idClient, String startDate, String description, String address, String name, String phone, List<OrderDetailDTO> shopcartDetails, String paymentDate, String physicalData, String deliveryDate, String finishDate, String status) {
+        this(ref, idClient, null, startDate, description, address, name, phone, shopcartDetails, paymentDate, physicalData, deliveryDate, finishDate, status);
     }
 
-    public OrderDTO(String ref, int idClient, com.example.softlearning.core.entity.client.dtos.ClientDTO client, String startDate, String description, String address, String name, String phone, List<OrderDetailDTO> shopcartDetails, String paymentDate, String physicalData, String deliveryDate, String finishDate) {
+    public OrderDTO(String ref, int idClient, ClientDTO client, String startDate, String description, String address, String name, String phone, List<OrderDetailDTO> shopcartDetails, String paymentDate, String physicalData, String deliveryDate, String finishDate, String status) {
         this.ref = ref;
         this.idClient = idClient;
         this.client = client;
@@ -61,11 +63,12 @@ public class OrderDTO {
         this.physicalData = physicalData;
         this.deliveryDate = deliveryDate;
         this.finishDate = finishDate;
+        this.status = status;
     }
 
     public String getRef() { return ref; }
     public int getIdClient() { return idClient; }
-    public com.example.softlearning.core.entity.client.dtos.ClientDTO getClient() { return client; }
+    public ClientDTO getClient() { return client; }
     public String getStartDate() { return startDate; }
     public String getDescription() { return description; }
     public String getAddress() { return address; }
@@ -76,4 +79,5 @@ public class OrderDTO {
     public String getPhysicalData() { return physicalData; }
     public String getDeliveryDate() { return deliveryDate; }
     public String getFinishDate() { return finishDate; }
+    public String getStatus() { return status; }
 }

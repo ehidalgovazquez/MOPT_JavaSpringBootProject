@@ -26,7 +26,7 @@ public class SerializersCatalogOrder {
                         "2024-06-02",
                         "width: 1; height: 2; depth: 3; weight: 4; isFragile: true",
                         "2024-06-03",
-                        "2024-06-04"
+                        "2024-06-04", null
                 );
 
                 try {

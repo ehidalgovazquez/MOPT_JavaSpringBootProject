@@ -59,7 +59,7 @@ public class BookDTO {
 
     // Para evitar la recursividad infinita al serializar el libro con sus detalles de pedido, se ignora la propiedad orderDetails
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "book")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "book", orphanRemoval = true)
     private List<OrderDetailJpaDTO> orderDetails = new ArrayList<>();
 
     public BookDTO() {

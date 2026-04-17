@@ -28,7 +28,7 @@ public class OrderMapper {
         
         return new OrderDTO(o.getRef(), o.getIdClient(), o.getStartDate(), o.getDescription(), 
             o.getAddress(), o.getName(), o.getPhoneContact(), details, 
-            o.getPaymentDate(), o.getPhysicalData(), o.getDeliveryDate(), o.getFinishDate());
+            o.getPaymentDate(), o.getPhysicalData(), o.getDeliveryDate(), o.getFinishDate(), o.getStatus());
     }
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -54,7 +54,7 @@ public class OrderMapper {
         
         return new OrderDTO(jpa.getRef(), jpa.getIdClient(), client, jpa.getStartDate(), jpa.getDescription(), 
             jpa.getAddress(), jpa.getName(), jpa.getPhone(), details, 
-            formatDate(jpa.getPaymentDate()), jpa.getPhysicalData(), formatDate(jpa.getDeliveryDate()), formatDate(jpa.getFinishDate()));
+            formatDate(jpa.getPaymentDate()), jpa.getPhysicalData(), formatDate(jpa.getDeliveryDate()), formatDate(jpa.getFinishDate()), jpa.getStatus());
     }
 
     private static String formatDate(LocalDateTime date) {
@@ -75,7 +75,7 @@ public class OrderMapper {
         
         return Order.getInstance(dto.getRef(), dto.getIdClient(), dto.getStartDate(), dto.getDescription(), 
             dto.getAddress(), dto.getName(), dto.getPhone(), sb.toString(), 
-            dto.getPaymentDate(), dto.getPhysicalData(), dto.getDeliveryDate(), dto.getFinishDate());
+            dto.getPaymentDate(), dto.getPhysicalData(), dto.getDeliveryDate(), dto.getFinishDate(), dto.getStatus());
     }
 
 }

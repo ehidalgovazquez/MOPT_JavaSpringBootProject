@@ -44,10 +44,11 @@ public class OrderJpaDTO {
     
     private LocalDateTime deliveryDate;
     private LocalDateTime finishDate;
+    private String status;
     
     protected OrderJpaDTO() {}
 
-    public OrderJpaDTO(String ref, int idClient, String startDate, String description, String address, String name, String phone, LocalDateTime paymentDate, String physicalData, LocalDateTime deliveryDate, LocalDateTime finishDate) {
+    public OrderJpaDTO(String ref, int idClient, String startDate, String description, String address, String name, String phone, LocalDateTime paymentDate, String physicalData, LocalDateTime deliveryDate, LocalDateTime finishDate, String status) {
         this.ref = ref;
         this.idClient = idClient;
         this.startDate = startDate;
@@ -59,6 +60,7 @@ public class OrderJpaDTO {
         this.physicalData = physicalData;
         this.deliveryDate = deliveryDate;
         this.finishDate = finishDate;
+        this.status = status;
     }
 
     public void addOrderDetail(OrderDetailJpaDTO detail) {
@@ -80,4 +82,5 @@ public class OrderJpaDTO {
     public String getPhysicalData() { return physicalData; }
     public LocalDateTime getDeliveryDate() { return deliveryDate; }
     public LocalDateTime getFinishDate() { return finishDate; }
+    public String getStatus() { return status; }
 }

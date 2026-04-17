@@ -1,10 +1,17 @@
 package com.example.softlearning.core.entity.order.appservices;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.softlearning.core.entity.order.dtos.OrderDTO;
+import com.example.softlearning.core.entity.order.dtos.OrderDetailDTO;
 import com.example.softlearning.core.entity.order.dtos.OrderDetailJpaDTO;
 import com.example.softlearning.core.entity.order.dtos.OrderJpaDTO;
 import com.example.softlearning.core.entity.order.mappers.OrderJpaMapper;
@@ -90,7 +97,86 @@ public class OrderServicesImpl implements OrderServices {
     @Transactional
     protected OrderDTO updateOrder(String orderData) throws ServiceException {
         OrderDTO dto = this.checkInputData(orderData);
-        this.getByRef(dto.getRef());
+        OrderJpaDTO existing = orderRepository.findById(dto.getRef()).get();
+        if (existing == null) {
+            throw new ServiceException("Order " + dto.getRef() + " not found");
+        }
+
+        String existingStatus = existing.getStatus();
+        String incomingStatus = dto.getStatus();
+        
+        if(incomingStatus != null ) {
+            if(!"CREATED".equals(incomingStatus) && !"CANCELLED".equals(incomingStatus) && !"CONFIRMED".equals(incomingStatus) && !"FORTHCOMMING".equals(incomingStatus) && !"DELIVERED".equals(incomingStatus) && !"FINISHED".equals(incomingStatus)) {
+                throw new ServiceException("Invalid status value: " + incomingStatus + "");
+            }
+
+            if (!existingStatus.equals(incomingStatus)) {
+                throw new ServiceException("Cannot change order status from " + existingStatus + " to " + incomingStatus);
+            }
+        }
+
+        String errorMessage = "";
+        if(!existingStatus.equals("CREATED")) {
+            if(!dto.getRef().equals(existing.getRef())) {
+                errorMessage += "reference,";
+            }
+
+            if(dto.getIdClient() != existing.getIdClient()) {
+                errorMessage += "idClient,";
+            }
+
+            if (!Objects.equals(dto.getStartDate(), existing.getStartDate())) {
+                errorMessage += "startDate,";
+            }
+
+            if (!Objects.equals(dto.getDescription(), existing.getDescription())) {
+                errorMessage += "description,";
+            }
+
+            if (!Objects.equals(dto.getAddress(), existing.getAddress())) {
+                errorMessage += "address,";
+            }
+
+            if (!Objects.equals(dto.getName(), existing.getName())) {
+                errorMessage += "name,";
+            }
+
+            if (!Objects.equals(dto.getPhone(), existing.getPhone())) {
+                errorMessage += "phone,";
+            }
+
+            if(!shopcartDetailsMatch(dto.getShopcartDetails(), existing.getShopcartDetails())) {
+                errorMessage += "shopcartDetails, ";
+            }
+            
+            if(!datesMatch(dto.getPaymentDate(), existing.getPaymentDate())) {
+                errorMessage += "paymentDate, ";
+            }
+
+            // physicalData solo se puede modificar en CONFIRMED
+            if (!Objects.equals(dto.getPhysicalData(), existing.getPhysicalData()) && !existingStatus.equals("CONFIRMED")) {
+                errorMessage += "physicalData,";
+            }
+
+            // deliveryDate solo se puede modificar en FORTHCOMMING
+            if (!datesMatch(dto.getDeliveryDate(), existing.getDeliveryDate()) && !existingStatus.equals("FORTHCOMMING")) {
+                errorMessage += "deliveryDate,";
+            }
+
+            // finishDate solo se puede modificar en DELIVERED
+            if (!datesMatch(dto.getFinishDate(), existing.getFinishDate()) && !existingStatus.equals("DELIVERED")) {
+                errorMessage += "finishDate,";
+            }
+
+            if(!Objects.equals(dto.getStatus(), existing.getStatus())) {
+                errorMessage += "status, ";
+            }
+        }
+
+        if(!errorMessage.equals("")) {
+            throw new ServiceException("Cannot modify " + errorMessage + "for order in status " + existingStatus);
+        }
+        
         try {
             Order model = OrderMapper.DTOToOrder(dto);
             OrderJpaDTO jpa = OrderJpaMapper.toJpaEntity(model);
@@ -100,11 +186,16 @@ public class OrderServicesImpl implements OrderServices {
                 throw new ServiceException("Client with id " + jpa.getIdClient() + " not found");
             }
             
+
             // Validar que todos los libros existan ANTES de guardar
             for (OrderDetailJpaDTO detail : jpa.getShopcartDetails()) {
                 if (!bookRepository.existsById(detail.getBookId())) {
-                    throw new ServiceException("Book with id " + detail.getBookId() + " not found");
+                    errorMessage += detail.getBookId() + ", ";
                 }
+            }
+
+            if(!errorMessage.equals("")) {
+                throw new ServiceException("Books with id " + errorMessage + "not found");
             }
             
             return OrderMapper.OrderToDTO(
@@ -156,4 +247,42 @@ public class OrderServicesImpl implements OrderServices {
         OrderJpaDTO entity = orderRepository.findById(ref).get();
         orderRepository.delete(entity);
     }
+
+    private boolean datesMatch(String dateString, LocalDateTime dateTime) {
+        if (dateString == null && dateTime == null) {
+            return true;
+        }
+        if (dateString == null || dateTime == null) {
+            return false;
+        }
+        try {
+            LocalDateTime parsed = LocalDateTime.parse(dateString, DATE_FORMATTER);
+            return parsed.equals(dateTime);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    private boolean shopcartDetailsMatch(List<OrderDetailDTO> dtoDetails, List<OrderDetailJpaDTO> existingDetails) {
+        if (dtoDetails == null && existingDetails == null) return true;
+        if (dtoDetails == null || existingDetails == null) return false;
+        if (dtoDetails.size() != existingDetails.size()) return false;
+
+        // Aquí asumo que el orden importa o que puedes comprobar uno a uno.
+        // Si el orden puede variar, tendrías que buscar por bookId.
+        for (OrderDetailDTO dtoDetail : dtoDetails) {
+            boolean foundMatch = existingDetails.stream().anyMatch(existingDetail -> 
+                existingDetail.getBookId() == dtoDetail.getBookId() &&
+                existingDetail.getAmount() == dtoDetail.getAmount() &&
+                Double.compare(existingDetail.getPrice(), dtoDetail.getPrice()) == 0
+            );
+            
+            if (!foundMatch) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 }

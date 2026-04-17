@@ -20,7 +20,7 @@ public class OrderJpaMapper {
             model.getDescription(), model.getAddress(), model.getName(), 
             model.getPhoneContact(), parseDate(model.getPaymentDate()), 
             model.getPhysicalData(), 
-            parseDate(model.getDeliveryDate()), parseDate(model.getFinishDate())
+            parseDate(model.getDeliveryDate()), parseDate(model.getFinishDate()), model.getStatus()
         );
 
         String raw = model.getShopcartDetails();
@@ -50,7 +50,7 @@ public class OrderJpaMapper {
             jpa.getRef(), jpa.getIdClient(), jpa.getStartDate(), jpa.getDescription(), 
             jpa.getAddress(), jpa.getName(), jpa.getPhone(), sb.toString(), 
             formatDate(jpa.getPaymentDate()), jpa.getPhysicalData(), 
-            formatDate(jpa.getDeliveryDate()), formatDate(jpa.getFinishDate())
+            formatDate(jpa.getDeliveryDate()), formatDate(jpa.getFinishDate()), jpa.getStatus()
         );
         
         return order;

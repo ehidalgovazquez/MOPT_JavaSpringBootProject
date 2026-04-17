@@ -18,10 +18,7 @@ public class OrderDetailDTO {
     public OrderDetailDTO() {}
 
     public OrderDetailDTO(int bookId, int amount, double price, double discount) {
-        this.bookId = bookId;
-        this.amount = amount;
-        this.price = price;
-        this.discount = discount;
+        this(bookId, amount, price, discount, null);
     }
 
     public OrderDetailDTO(int bookId, int amount, double price, double discount, BookDTO book) {
