@@ -1,0 +1,1003 @@
+{
+  "info": {
+    "_postman_id": "softlearning-2026",
+    "name": "SoftlearningApplication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Order",
+      "item": [
+        {
+          "name": "1.1 Crear orden con 1 detalle (Libro 1: Clean Code x 2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ref\": \"ORD001\",\n  \"idClient\": 1001,\n  \"startDate\": \"2026-04-16 18:30:00\",\n  \"description\": \"Primer pedido - Libros de programación\",\n  \"address\": \"Calle Mayor 10\",\n  \"name\": \"Juan Perez\",\n  \"phone\": \"600112233\",\n  \"shopcartDetails\": [\n    {\n      \"bookId\": 1,\n      \"amount\": 2,\n      \"price\": 39.99,\n      \"discount\": 0.10\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders"]
+            }
+          }
+        },
+        {
+          "name": "1.2 Crear orden con múltiples detalles (Libro 1 + Libro 2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ref\": \"ORD002\",\n  \"idClient\": 1001,\n  \"startDate\": \"2026-04-17 10:00:00\",\n  \"description\": \"Segundo pedido - Compra variada\",\n  \"address\": \"Calle Mayor 10\",\n  \"name\": \"Juan Perez\",\n  \"phone\": \"600112233\",\n  \"shopcartDetails\": [\n    {\n      \"bookId\": 1,\n      \"amount\": 1,\n      \"price\": 39.99,\n      \"discount\": 0.05\n    },\n    {\n      \"bookId\": 2,\n      \"amount\": 3,\n      \"price\": 24.99,\n      \"discount\": 0.15\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders"]
+            }
+          }
+        },
+        {
+          "name": "1.3 Crear orden con XML",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<order>\n    <ref>ORD003</ref>\n    <idClient>1001</idClient>\n    <startDate>2026-04-18T09:15:00</startDate>\n    <description>Tercer pedido - Formato XML</description>\n    <address>Calle Mayor 10</address>\n    <name>Juan Perez</name>\n    <phone>600112233</phone>\n    <shopcartDetails>\n        <orderDetail>\n            <bookId>2</bookId>\n            <amount>2</amount>\n            <price>24.99</price>\n            <discount>0.20</discount>\n        </orderDetail>\n    </shopcartDetails>\n</order>"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders"]
+            }
+          }
+        },
+        {
+          "name": "2.1 Obtener orden ORD001 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD001"]
+            }
+          }
+        },
+        {
+          "name": "2.2 Obtener orden ORD001 (XML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD001"]
+            }
+          }
+        },
+        {
+          "name": "2.3 Obtener orden ORD002 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD002",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD002"]
+            }
+          }
+        },
+        {
+          "name": "2.4 Obtener orden ORD002 (XML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD002",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD002"]
+            }
+          }
+        },
+        {
+          "name": "2.5 Obtener orden ORD003 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD003",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD003"]
+            }
+          }
+        },
+        {
+          "name": "2.6 Obtener orden ORD003 (XML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD003",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD003"]
+            }
+          }
+        },
+        {
+          "name": "3.1 Actualizar ORD001: Cambiar detalles (JSON)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ref\": \"ORD001\",\n  \"idClient\": 1001,\n  \"startDate\": \"2026-04-16 18:30:00\",\n  \"description\": \"Pedido actualizado - Nueva cantidad\",\n  \"address\": \"Calle Mayor 10\",\n  \"name\": \"Juan Perez\",\n  \"phone\": \"600112233\",\n  \"shopcartDetails\": [\n    {\n      \"bookId\": 1,\n      \"amount\": 3,\n      \"price\": 39.99,\n      \"discount\": 0.15\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD001"]
+            }
+          }
+        },
+        {
+          "name": "3.2 Actualizar ORD002: Agregar otro libro (JSON)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ref\": \"ORD002\",\n  \"idClient\": 1001,\n  \"startDate\": \"2026-04-17 10:00:00\",\n  \"description\": \"Pedido actualizado - Agregar detalle\",\n  \"address\": \"Calle Mayor 10\",\n  \"name\": \"Juan Perez\",\n  \"phone\": \"600112233\",\n  \"shopcartDetails\": [\n    {\n      \"bookId\": 1,\n      \"amount\": 2,\n      \"price\": 39.99,\n      \"discount\": 0.05\n    },\n    {\n      \"bookId\": 2,\n      \"amount\": 4,\n      \"price\": 24.99,\n      \"discount\": 0.15\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD002",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD002"]
+            }
+          }
+        },
+        {
+          "name": "3.3 Actualizar ORD003: Cambiar con XML",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<order>\n    <ref>ORD003</ref>\n    <idClient>1001</idClient>\n    <startDate>2026-04-18T09:15:00</startDate>\n    <description>Pedido actualizado - XML</description>\n    <address>Calle Mayor 10</address>\n    <name>Juan Perez</name>\n    <phone>600112233</phone>\n    <shopcartDetails>\n        <orderDetail>\n            <bookId>1</bookId>\n            <amount>5</amount>\n            <price>39.99</price>\n            <discount>0.25</discount>\n        </orderDetail>\n        <orderDetail>\n            <bookId>2</bookId>\n            <amount>2</amount>\n            <price>24.99</price>\n            <discount>0.10</discount>\n        </orderDetail>\n    </shopcartDetails>\n</order>"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD003",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD003"]
+            }
+          }
+        },
+        {
+          "name": "3.4 Verificar actualización de ORD001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD001"]
+            }
+          }
+        },
+        {
+          "name": "4.1 Eliminar orden ORD001",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD001"]
+            }
+          }
+        },
+        {
+          "name": "4.2 Eliminar orden ORD002",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD002",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD002"]
+            }
+          }
+        },
+        {
+          "name": "4.3 Eliminar orden ORD003",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/orders/ORD003",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "orders", "ORD003"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Book",
+      "item": [
+        {
+          "name": "1.1 Crear Libro 1: Clean Code (JSON)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"name\": \"Clean Code\",\n  \"price\": 35.0,\n  \"available\": true,\n  \"author\": \"Robert C. Martin\",\n  \"publicationDate\": \"2008-08-01\",\n  \"availabilityDate\": \"2023-12-01\",\n  \"weight\": 0.5,\n  \"width\": 18.0,\n  \"height\": 24.0,\n  \"depth\": 2.0,\n  \"isFragile\": false\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books"]
+            }
+          }
+        },
+        {
+          "name": "1.2 Crear Libro 2: Don Quijote de la Mancha (XML)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<book>\n    <id>2</id>\n    <name>Don Quijote de la Mancha</name>\n    <price>20.99</price>\n    <available>true</available>\n    <author>Miguel de Cervantes</author>\n    <publicationDate>1605-01-16</publicationDate>\n    <availabilityDate>2024-02-01</availabilityDate>\n    <weight>1.2</weight>\n    <width>16.0</width>\n    <height>24.0</height>\n    <depth>5.0</depth>\n    <isFragile>false</isFragile>\n</book>"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books"]
+            }
+          }
+        },
+        {
+          "name": "2.1 Obtener todos los libros (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books"]
+            }
+          }
+        },
+        {
+          "name": "2.2 Obtener todos los libros (XML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books"]
+            }
+          }
+        },
+        {
+          "name": "2.3 Obtener Libro por ID 1 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "1"]
+            }
+          }
+        },
+        {
+          "name": "2.4 Obtener Libro por ID 1 (XML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "1"]
+            }
+          }
+        },
+        {
+          "name": "2.5 Obtener Libro por ID 2 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "2"]
+            }
+          }
+        },
+        {
+          "name": "2.6 Obtener Libro por ID 2 (XML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "2"]
+            }
+          }
+        },
+        {
+          "name": "3.1 Actualizar Libro 1: Cambiar precio y nombre (JSON)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"name\": \"Clean Code - Edicion Especial\",\n  \"price\": 39.99,\n  \"available\": true,\n  \"author\": \"Robert C. Martin\",\n  \"publicationDate\": \"2008-08-01\",\n  \"availabilityDate\": \"2024-01-01\",\n  \"weight\": 0.5,\n  \"width\": 18.0,\n  \"height\": 24.0,\n  \"depth\": 2.0,\n  \"isFragile\": false\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "1"]
+            }
+          }
+        },
+        {
+          "name": "3.2 Actualizar Libro 2: Cambiar precio y marcar como frágil (XML)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<book>\n    <id>2</id>\n    <name>Don Quijote de la Mancha - Edicion Vintage</name>\n    <price>24.99</price>\n    <available>true</available>\n    <author>Miguel de Cervantes</author>\n    <publicationDate>1605-01-16</publicationDate>\n    <availabilityDate>2024-02-01</availabilityDate>\n    <weight>1.2</weight>\n    <width>16.0</width>\n    <height>24.0</height>\n    <depth>5.0</depth>\n    <isFragile>true</isFragile>\n</book>"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "2"]
+            }
+          }
+        },
+        {
+          "name": "3.3 Verificar actualización del Libro 1 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "1"]
+            }
+          }
+        },
+        {
+          "name": "3.4 Verificar actualización del Libro 2 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "2"]
+            }
+          }
+        },
+        {
+          "name": "4.1 Buscar libros por nombre: Clean (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/search?name=Clean",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "search"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Clean"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.2 Buscar libros por autor: Cervantes (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/search?author=Cervantes",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "search"],
+              "query": [
+                {
+                  "key": "author",
+                  "value": "Cervantes"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.3 Buscar libros por precio máximo: 30 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/search?maxPrice=30",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "search"],
+              "query": [
+                {
+                  "key": "maxPrice",
+                  "value": "30"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.4 Búsqueda combinada: nombre y precio máximo (XML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/search?name=Don&maxPrice=25",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "search"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Don"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "25"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "5.1 Borrar libro 1",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "1"]
+            }
+          }
+        },
+        {
+          "name": "5.2 Borrar libro 2",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/books/2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "books", "2"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Client",
+      "item": [
+        {
+          "name": "1.1 Crear Cliente 1: Juan Perez (JSON)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idClient\": 1001,\n  \"idPerson\": \"12345678X\",\n  \"email\": \"juan.perez@ejemplo.com\",\n  \"phone\": \"600112233\",\n  \"address\": \"Calle Mayor 10\",\n  \"namePerson\": \"Juan Perez\",\n  \"registrationDate\": \"2026-02-02\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients"]
+            }
+          }
+        },
+        {
+          "name": "1.2 Crear Cliente 2: Ana Garcia (XML)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<client>\n    <idClient>1002</idClient>\n    <idPerson>98765432Y</idPerson>\n    <email>ana.garcia@test.es</email>\n    <phone>677889900</phone>\n    <address>Avenida Diagonal 500</address>\n    <namePerson>Ana Garcia</namePerson>\n    <registrationDate>2025-12-31</registrationDate>\n</client>"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients"]
+            }
+          }
+        },
+        {
+          "name": "2.1 Obtener Cliente por ID 1001 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1001"]
+            }
+          }
+        },
+        {
+          "name": "2.2 Obtener Cliente por ID 1001 (XML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1001"]
+            }
+          }
+        },
+        {
+          "name": "2.3 Obtener Cliente por ID 1002 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1002",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1002"]
+            }
+          }
+        },
+        {
+          "name": "2.4 Obtener Cliente por ID 1002 (XML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1002",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1002"]
+            }
+          }
+        },
+        {
+          "name": "3.1 Actualizar Cliente 1: Cambiar email y teléfono (JSON)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idClient\": 1001,\n  \"idPerson\": \"12345678X\",\n  \"email\": \"juan.perez.nuevo@email.com\",\n  \"phone\": \"600999888\",\n  \"address\": \"Calle Mayor 10, Apto 5\",\n  \"namePerson\": \"Juan Perez\",\n  \"registrationDate\": \"2026-02-02\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1001"]
+            }
+          }
+        },
+        {
+          "name": "3.2 Actualizar Cliente 2: Cambiar dirección y email (XML)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<client>\n    <idClient>1002</idClient>\n    <idPerson>98765432Y</idPerson>\n    <email>ana.garcia.nueva@test.es</email>\n    <phone>677111222</phone>\n    <address>Calle Nueva 789, Barcelona</address>\n    <namePerson>Ana Garcia</namePerson>\n    <registrationDate>2025-12-31</registrationDate>\n</client>"
+            },
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1002",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1002"]
+            }
+          }
+        },
+        {
+          "name": "3.3 Verificar actualización del Cliente 1 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1001"]
+            }
+          }
+        },
+        {
+          "name": "3.4 Verificar actualización del Cliente 2 (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1002",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1002"]
+            }
+          }
+        },
+        {
+          "name": "4.1 Borrar Cliente 1",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1001"]
+            }
+          }
+        },
+        {
+          "name": "4.2 Borrar Cliente 2",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/softlearning/clients/1002",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["softlearning", "clients", "1002"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
