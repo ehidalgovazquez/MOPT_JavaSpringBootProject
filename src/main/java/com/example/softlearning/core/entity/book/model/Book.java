@@ -50,7 +50,7 @@ public class Book extends Product implements Storable {
             errorMessage += "Bad Availability Date: " + e.getMessage();
         }
         try{
-            this.dimensions = PhysicalData.getInstance(weight, width, height, depth, isFragile);
+            setPhysicalData(weight, width, height, depth, isFragile);
         } catch (BuildException e) {
             if(!errorMessage.isEmpty()) {
                 errorMessage += "; ";
@@ -92,6 +92,14 @@ public class Book extends Product implements Storable {
         try{
             this.availabilityDate = LocalDate.parse(availabilityDate,formatter);
         } catch (DateTimeException e) {
+            throw e;
+        }
+    }
+
+    public void setPhysicalData(double weight, double width, double height, double depth, boolean isFragile) throws BuildException {
+        try {
+            this.dimensions = PhysicalData.getInstance(weight, width, height, depth, isFragile);
+        } catch (BuildException e) {
             throw e;
         }
     }

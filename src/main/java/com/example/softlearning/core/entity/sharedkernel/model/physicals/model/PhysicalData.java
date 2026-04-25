@@ -121,7 +121,9 @@ public class PhysicalData {
             }
             errorMessage += "Bad Depth";
         }
-        throw new BuildException(errorMessage);
+        if (!errorMessage.isEmpty()) {
+            throw new BuildException(errorMessage);
+        }
     }
 
     public double getWeight() {
