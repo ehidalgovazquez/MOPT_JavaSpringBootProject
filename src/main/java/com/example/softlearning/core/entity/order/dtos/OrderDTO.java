@@ -2,6 +2,7 @@ package com.example.softlearning.core.entity.order.dtos;
 
 import java.util.List;
 
+import com.example.softlearning.core.entity.client.dtos.ClientDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -13,6 +14,8 @@ public class OrderDTO {
     private String ref;
     @JsonProperty("idClient")
     private int idClient;
+    @JsonProperty("client")
+    private ClientDTO client;
     @JsonProperty("startDate")
     private String startDate;
     @JsonProperty("description")
@@ -37,12 +40,19 @@ public class OrderDTO {
     private String deliveryDate;
     @JsonProperty("finishDate")
     private String finishDate;
+    @JsonProperty("status")
+    private String status;
 
     public OrderDTO() {}
 
-    public OrderDTO(String ref, int idClient, String startDate, String description, String address, String name, String phone, List<OrderDetailDTO> shopcartDetails, String paymentDate, String physicalData, String deliveryDate, String finishDate) {
+    public OrderDTO(String ref, int idClient, String startDate, String description, String address, String name, String phone, List<OrderDetailDTO> shopcartDetails, String paymentDate, String physicalData, String deliveryDate, String finishDate, String status) {
+        this(ref, idClient, null, startDate, description, address, name, phone, shopcartDetails, paymentDate, physicalData, deliveryDate, finishDate, status);
+    }
+
+    public OrderDTO(String ref, int idClient, ClientDTO client, String startDate, String description, String address, String name, String phone, List<OrderDetailDTO> shopcartDetails, String paymentDate, String physicalData, String deliveryDate, String finishDate, String status) {
         this.ref = ref;
         this.idClient = idClient;
+        this.client = client;
         this.startDate = startDate;
         this.description = description;
         this.address = address;
@@ -53,10 +63,12 @@ public class OrderDTO {
         this.physicalData = physicalData;
         this.deliveryDate = deliveryDate;
         this.finishDate = finishDate;
+        this.status = status;
     }
 
     public String getRef() { return ref; }
     public int getIdClient() { return idClient; }
+    public ClientDTO getClient() { return client; }
     public String getStartDate() { return startDate; }
     public String getDescription() { return description; }
     public String getAddress() { return address; }
@@ -67,4 +79,5 @@ public class OrderDTO {
     public String getPhysicalData() { return physicalData; }
     public String getDeliveryDate() { return deliveryDate; }
     public String getFinishDate() { return finishDate; }
+    public String getStatus() { return status; }
 }

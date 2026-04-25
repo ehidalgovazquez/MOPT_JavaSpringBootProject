@@ -1,11 +1,19 @@
 package com.example.softlearning.core.entity.client.dtos;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.softlearning.core.entity.order.dtos.OrderJpaDTO;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,6 +41,11 @@ public class ClientDTO {
     
     @Column(name = "registration_date")
     private String registrationDate;
+    
+    // Para evitar la recursividad infinita al serializar el cliente con sus pedidos, se ignora la propiedad orders
+    @JsonIgnore
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OrderJpaDTO> orders = new ArrayList<>();
 
     public ClientDTO() {
     }

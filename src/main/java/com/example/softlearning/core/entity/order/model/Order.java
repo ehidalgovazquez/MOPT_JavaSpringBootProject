@@ -28,7 +28,7 @@ public class Order extends Operation implements Storable {
         this.status = OrderStatus.CREATED;
     }
     
-    public static Order getInstance(String ref, int idClient, String startDate, String description, String address, String name, String phone) throws BuildException {
+    public static Order getInstance(String ref, int idClient, String startDate, String description, String address, String name, String phone, String status) throws BuildException {
         Order o = new Order();
         String errorMessage = o.OrderDataValidation(ref, idClient, startDate, description, address, name, phone);
         if(!errorMessage.isEmpty()){
@@ -53,13 +53,13 @@ public class Order extends Operation implements Storable {
         }
 
         try {
-            setAddress(address);
+            setName(name);
         } catch (BuildException ex) {
             errorMessage += ex.getMessage();
         }
 
         try {
-            setName(name);
+            setPhoneContact(phone);
         } catch (BuildException ex) {
             errorMessage += ex.getMessage();
         }
@@ -68,6 +68,15 @@ public class Order extends Operation implements Storable {
     }
 
     public static Order getInstance(String ref, int idClient, String startDate, String description, String address, String name, String phone, String shopcartDetails, String paymentDate, String packageInfo, String deliveryDate, String finishDate) throws BuildException {
+        Order o = new Order();
+        String errorMessage = o.OrderDataValidation(ref, idClient, startDate, description, address, name, phone, shopcartDetails, paymentDate, packageInfo, deliveryDate, finishDate);
+        if(!errorMessage.isEmpty()){
+            throw new BuildException (errorMessage);
+        }
+        return o;
+    }
+
+    public static Order getInstance(String ref, int idClient, String startDate, String description, String address, String name, String phone, String shopcartDetails, String paymentDate, String packageInfo, String deliveryDate, String finishDate, String statusString) throws BuildException {
         Order o = new Order();
         String errorMessage = o.OrderDataValidation(ref, idClient, startDate, description, address, name, phone, shopcartDetails, paymentDate, packageInfo, deliveryDate, finishDate);
         if(!errorMessage.isEmpty()){
@@ -199,10 +208,14 @@ public class Order extends Operation implements Storable {
 
         String[] phones = phoneContact.split(";");
 
+        if (phones.length == 0) {
+            throw new BuildException("At least one phone contact is required");
+        }
+
         for (String phone : phones) {
             phone = phone.trim();
 
-            if (!Check.minStringChars(phone, 11)) {
+            if (!Check.minStringChars(phone, 9)) {
                 throw new BuildException("Bad PhoneContact: " + phone);
             }
 
@@ -231,6 +244,7 @@ public class Order extends Operation implements Storable {
         if(this.status != OrderStatus.CREATED){
             throw new BuildException("Order Status differs to Created");
         }
+        
         shopCart.clear();
         String[] items = shopcartDetails.split(";");
         int lineNumber = 0;
@@ -380,7 +394,7 @@ public class Order extends Operation implements Storable {
 
     public void setPackageInfo(String packageinfo) throws BuildException {
         if(this.status != OrderStatus.CONFIRMED){
-            throw new BuildException("Status differs to Confirmed");
+            throw new BuildException("Status differs to CONFIRMED");
         }
 
         this.packageInfo = PhysicalData.getInstance(packageinfo);
@@ -397,7 +411,7 @@ public class Order extends Operation implements Storable {
 
     public void setDeliveryDate(String deliveryDate) throws GeneralDateTimeException {
         if(this.status != OrderStatus.FORTHCOMMING){
-            throw new GeneralDateTimeException("Order status differs to confirmed");
+            throw new GeneralDateTimeException("Order status differs to FORTHCOMMING");
         }
 
         if(deliveryDate == null){
@@ -411,7 +425,7 @@ public class Order extends Operation implements Storable {
     @Override
     public void setFinishDate(String finishDate) throws GeneralDateTimeException {
         if(this.status != OrderStatus.DELIVERED) {
-            throw new GeneralDateTimeException("Order Status differs to Delivered");
+            throw new GeneralDateTimeException("Order Status differs to DELIVERED");
         }
 
         super.setFinishDate(finishDate); 

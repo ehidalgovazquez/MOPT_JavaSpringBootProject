@@ -20,6 +20,7 @@ public interface JpaOrderRepository extends JpaRepository<OrderJpaDTO, String>, 
     @Override
     public OrderJpaDTO save(OrderJpaDTO order);
 
+    @Transactional
     @Override
     public void deleteById(String ref);
 }

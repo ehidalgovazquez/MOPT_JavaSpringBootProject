@@ -1,6 +1,8 @@
-# He utilizado la extension REST Client de VSCode para probar las APIs RESTful y poder ejecutar las pruebas.
+### ============================================
+### 1. CREAR CLIENTES (POST)
+### ============================================
 
-### Crear cliente (JSON)
+### 1.1 Crear Cliente 1: Juan Perez (JSON)
 POST http://localhost:8080/softlearning/clients
 Content-Type: application/json
 Accept: application/json
@@ -8,18 +10,14 @@ Accept: application/json
 {
   "idClient": 1001,
   "idPerson": "12345678X",
-  "email": "usuario@ejemplo.com",
+  "email": "juan.perez@ejemplo.com",
   "phone": "600112233",
   "address": "Calle Mayor 10",
   "namePerson": "Juan Perez",
   "registrationDate": "2026-02-02"
 }
 
-### Obtener un cliente por ID (XML)
-GET http://localhost:8080/softlearning/clients/1001
-Accept: application/xml
-
-### Crear cliente (XML)
+### 1.2 Crear Cliente 2: Ana Garcia (XML)
 POST http://localhost:8080/softlearning/clients
 Content-Type: application/xml
 Accept: application/xml
@@ -34,11 +32,31 @@ Accept: application/xml
     <registrationDate>2025-12-31</registrationDate>
 </client>
 
-### Obtener un cliente por ID (JSON)
+### ============================================
+### 2. OBTENER CLIENTES (GET)
+### ============================================
+
+### 2.1 Obtener Cliente por ID 1001 (JSON)
+GET http://localhost:8080/softlearning/clients/1001
+Accept: application/json
+
+### 2.2 Obtener Cliente por ID 1001 (XML)
+GET http://localhost:8080/softlearning/clients/1001
+Accept: application/xml
+
+### 2.3 Obtener Cliente por ID 1002 (JSON)
 GET http://localhost:8080/softlearning/clients/1002
 Accept: application/json
 
-### Actualizar cliente (JSON)
+### 2.4 Obtener Cliente por ID 1002 (XML)
+GET http://localhost:8080/softlearning/clients/1002
+Accept: application/xml
+
+### ============================================
+### 3. ACTUALIZAR CLIENTES (PUT)
+### ============================================
+
+### 3.1 Actualizar Cliente 1: Cambiar email y teléfono (JSON)
 PUT http://localhost:8080/softlearning/clients/1001
 Content-Type: application/json
 Accept: application/json
@@ -46,18 +64,14 @@ Accept: application/json
 {
   "idClient": 1001,
   "idPerson": "12345678X",
-  "email": "juan.nuevo@email.com",
+  "email": "juan.perez.nuevo@email.com",
   "phone": "600999888",
-  "address": "Nueva Direccion 456",
+  "address": "Calle Mayor 10, Apto 5",
   "namePerson": "Juan Perez",
   "registrationDate": "2026-02-02"
 }
 
-### Obtener un cliente por ID (JSON)
-GET http://localhost:8080/softlearning/clients/1001
-Accept: application/json
-
-### Actualizar cliente (XML)
+### 3.2 Actualizar Cliente 2: Cambiar dirección y email (XML)
 PUT http://localhost:8080/softlearning/clients/1002
 Content-Type: application/xml
 Accept: application/xml
@@ -65,19 +79,27 @@ Accept: application/xml
 <client>
     <idClient>1002</idClient>
     <idPerson>98765432Y</idPerson>
-    <email>ana.nueva@test.es</email>
+    <email>ana.garcia.nueva@test.es</email>
     <phone>677111222</phone>
-    <address>Calle Nueva 789</address>
+    <address>Calle Nueva 789, Barcelona</address>
     <namePerson>Ana Garcia</namePerson>
     <registrationDate>2025-12-31</registrationDate>
 </client>
 
-### Obtener un cliente por ID (XML)
-GET http://localhost:8080/softlearning/clients/1002
-Accept: application/xml
+### 3.3 Verificar actualización del Cliente 1 (JSON)
+GET http://localhost:8080/softlearning/clients/1001
+Accept: application/json
 
-### Borrar cliente 1001
+### 3.4 Verificar actualización del Cliente 2 (JSON)
+GET http://localhost:8080/softlearning/clients/1002
+Accept: application/json
+
+### ============================================
+### 4. ELIMINAR CLIENTE
+### ============================================
+
+### 4.1 Borrar Cliente 1
 DELETE http://localhost:8080/softlearning/clients/1001
 
-### Borrar cliente 1002
+### 4.2 Borrar Cliente 2
 DELETE http://localhost:8080/softlearning/clients/1002
