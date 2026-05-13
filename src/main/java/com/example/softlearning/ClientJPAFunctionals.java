@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import com.example.softlearning.core.entity.client.dtos.ClientDTO;
-import com.example.softlearning.infrastruture.persistence.jpa.JpaClientRepository;
+import com.example.softlearning.infrastructure.persistence.jpa.JpaClientRepository;
 
 @SpringBootApplication
 public class ClientJPAFunctionals {

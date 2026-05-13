@@ -66,7 +66,9 @@ public class RestBookController {
         try {
             return ResponseEntity.ok(bookServices.addFromJson(bookdata));
         } catch (ServiceException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(400).body("Error al crear libro: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Error en los datos: " + e.getMessage());
         }
     }
 
@@ -75,7 +77,9 @@ public class RestBookController {
         try {
             return ResponseEntity.ok(bookServices.addFromXml(bookdata));
         } catch (ServiceException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(400).body("Error al crear libro: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Error en los datos: " + e.getMessage());
         }
     }
 
@@ -85,7 +89,9 @@ public class RestBookController {
         try {
             return ResponseEntity.ok(bookServices.updateOneFromJson(bookdata));
         } catch (ServiceException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(400).body("Error al actualizar libro: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Error en los datos: " + e.getMessage());
         }
     }
 
@@ -95,7 +101,9 @@ public class RestBookController {
         try {
             return ResponseEntity.ok(bookServices.updateOneFromXml(bookdata));
         } catch (ServiceException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(400).body("Error al actualizar libro: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Error en los datos: " + e.getMessage());
         }
 
     }
@@ -106,7 +114,9 @@ public class RestBookController {
             bookServices.deleteById(id);
             return ResponseEntity.ok().build();
         } catch (ServiceException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(400).body("Error al eliminar libro: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Error: " + e.getMessage());
         }
     }
 

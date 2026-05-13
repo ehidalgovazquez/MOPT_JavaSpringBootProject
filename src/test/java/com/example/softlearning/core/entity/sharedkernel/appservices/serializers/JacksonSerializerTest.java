@@ -114,7 +114,7 @@ class JacksonSerializerTest {
     void deserialize_JsonWithInvalidDomainData_IgnoresInvalidValues() throws Exception {
         String jsonWithInvalidData = "{"
                 + "\"namePerson\": \"A\","
-                + "\"idClient\": 50,"
+                + "\"idClient\": 0,"
                 + "\"registrationDate\": \"2024-01-10\"" 
                 + "}";
 
@@ -122,7 +122,7 @@ class JacksonSerializerTest {
 
         assertNotNull(resultClient);
         assertNull(resultClient.getNamePerson(), "El nombre no debió asignarse porque tiene menos de 2 caracteres");
-        assertEquals(0, resultClient.getIdClient(), "El idClient no debió asignarse porque es menor de 1000");
+        assertEquals(0, resultClient.getIdClient(), "El idClient no debió asignarse porque es menor de 1");
     }
 
     @Test

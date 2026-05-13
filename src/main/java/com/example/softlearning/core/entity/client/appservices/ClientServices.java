@@ -6,6 +6,8 @@ import com.example.softlearning.core.entity.sharedkernel.model.exceptions.Servic
 
 @Service
 public interface ClientServices {
+    public String getAllToJson() throws ServiceException;
+    public String getAllToXml() throws ServiceException;
     public String getByIdToJson(int id) throws ServiceException;
     public String getByIdToXml(int id) throws ServiceException;
     public String addFromJson(String client) throws ServiceException;

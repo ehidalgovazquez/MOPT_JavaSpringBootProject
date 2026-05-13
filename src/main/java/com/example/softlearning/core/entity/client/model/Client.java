@@ -44,7 +44,7 @@ public class Client extends Person implements Stakeholder {
     }
 
     public boolean setidClient(int idClient) {
-        if(Check.minValue(idClient, 1000)) {
+        if(Check.minValue(idClient, 1)) {
             this.idClient = idClient;
             return true;
         }

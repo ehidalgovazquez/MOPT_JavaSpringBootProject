@@ -1,4 +1,4 @@
-package com.example.softlearning.infrastruture.persistence.jpa;
+package com.example.softlearning.infrastructure.persistence.jpa;
 
 import java.util.List;
 import java.util.Optional;

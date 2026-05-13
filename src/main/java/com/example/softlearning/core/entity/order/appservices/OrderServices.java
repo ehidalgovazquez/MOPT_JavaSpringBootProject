@@ -8,6 +8,11 @@ import com.example.softlearning.core.entity.sharedkernel.model.exceptions.Servic
 public interface OrderServices {
     public String getByIdToJson(String ref) throws ServiceException;
     public String getByIdToXml(String ref) throws ServiceException;
+    public Integer getClientIdForOrder(String ref) throws ServiceException;
+    public String getAllOrdersToJson() throws ServiceException;
+    public String getAllOrdersToXml() throws ServiceException;
+    public String getAllOrdersByClientIdToJson(Integer clientId) throws ServiceException;
+    public String getAllOrdersByClientIdToXml(Integer clientId) throws ServiceException;
     public String addFromJson(String data) throws ServiceException;
     public String addFromXml(String data) throws ServiceException;
     public String updateOneFromJson(String ref, String data) throws ServiceException;

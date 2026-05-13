@@ -51,7 +51,7 @@ class ClientTest {
                 "123", 
                 "Short", 
                 "J", 
-                500, 
+                0, 
                 "bad-date"
             )
         );
@@ -115,7 +115,7 @@ class ClientTest {
     @DisplayName("Falla únicamente por idClient menor al límite establecido")
     void getInstance_InvalidIdClient_ThrowsException() {
         BuildException ex = assertThrows(BuildException.class, () -> 
-            Client.getInstance("12A", "valid.email@example.com", "123456789", "Valid Address", "Valid Name", 999, "2023-05-15")
+            Client.getInstance("12A", "valid.email@example.com", "123456789", "Valid Address", "Valid Name", 0, "2023-05-15")
         );
         assertEquals("Bad idClient;", ex.getMessage().trim());
     }
@@ -162,7 +162,7 @@ class ClientTest {
 
         assertTrue(client.setidClient(1000));
         assertEquals(1000, client.getIdClient());
-        assertFalse(client.setidClient(999));
+        assertFalse(client.setidClient(0));
 
         assertDoesNotThrow(() -> client.setRegistrationDate("2024-01-01"));
         assertEquals("2024-01-01", client.getRegistrationDate());

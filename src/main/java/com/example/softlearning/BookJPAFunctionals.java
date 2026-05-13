@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import com.example.softlearning.core.entity.book.dtos.BookDTO;
-import com.example.softlearning.infrastruture.persistence.jpa.JpaBookRepository;
+import com.example.softlearning.infrastructure.persistence.jpa.JpaBookRepository;
 
 @SpringBootApplication
 public class BookJPAFunctionals {

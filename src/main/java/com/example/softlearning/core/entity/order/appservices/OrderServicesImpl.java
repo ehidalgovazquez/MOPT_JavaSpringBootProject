@@ -23,8 +23,8 @@ import com.example.softlearning.core.entity.sharedkernel.appservices.serializers
 import com.example.softlearning.core.entity.sharedkernel.appservices.serializers.SerializersCatalog;
 import com.example.softlearning.core.entity.sharedkernel.model.exceptions.BuildException;
 import com.example.softlearning.core.entity.sharedkernel.model.exceptions.ServiceException;
-import com.example.softlearning.infrastruture.persistence.jpa.JpaBookRepository;
-import com.example.softlearning.infrastruture.persistence.jpa.JpaClientRepository;
+import com.example.softlearning.infrastructure.persistence.jpa.JpaBookRepository;
+import com.example.softlearning.infrastructure.persistence.jpa.JpaClientRepository;
 
 @Service
 public class OrderServicesImpl implements OrderServices {
@@ -215,6 +215,11 @@ public class OrderServicesImpl implements OrderServices {
     }
 
     @Override
+    public Integer getClientIdForOrder(String ref) throws ServiceException {
+        return this.getByRef(ref).getIdClient();
+    }
+
+    @Override
     public String addFromJson(String orderData) throws ServiceException {
         this.serializer = SerializersCatalog.getInstance(Serializers.JSON_ORDER);
         return serializer.serialize(this.addOrder(orderData));
@@ -241,18 +246,73 @@ public class OrderServicesImpl implements OrderServices {
     @Transactional
     @Override
     public void deleteById(String ref) throws ServiceException {
-        this.getByRef(ref); // Check existence and load
-        OrderJpaDTO entity = orderRepository.findById(ref).get();
-        orderRepository.delete(entity);
+        try {
+            OrderJpaDTO order = orderRepository.findById(ref).orElseThrow(() -> new ServiceException("Orden no encontrada: " + ref));
+            
+            orderRepository.deleteOrderDetails(ref);
+            orderRepository.deleteById(ref);
+        } catch (ServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ServiceException("Error al eliminar la orden: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public String getAllOrdersToJson() throws ServiceException {
+        try {
+            List<OrderJpaDTO> allOrders = orderRepository.findAll();
+            return SerializersCatalog.getInstance(Serializers.JSON_ORDER)
+                    .serialize(allOrders.stream()
+                            .map(OrderMapper::OrderToDTO)
+                            .toList());
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving all orders: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public String getAllOrdersToXml() throws ServiceException {
+        try {
+            List<OrderJpaDTO> allOrders = orderRepository.findAll();
+            return SerializersCatalog.getInstance(Serializers.XML_ORDER)
+                    .serialize(allOrders.stream()
+                            .map(OrderMapper::OrderToDTO)
+                            .toList());
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving all orders: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public String getAllOrdersByClientIdToJson(Integer clientId) throws ServiceException {
+        try {
+            List<OrderJpaDTO> clientOrders = orderRepository.findByIdClient(clientId);
+            return SerializersCatalog.getInstance(Serializers.JSON_ORDER).serialize(clientOrders.stream().map(OrderMapper::OrderToDTO).toList());
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving orders for client " + clientId + ": " + e.getMessage());
+        }
+    }
+
+    @Override
+    public String getAllOrdersByClientIdToXml(Integer clientId) throws ServiceException {
+        try {
+            List<OrderJpaDTO> clientOrders = orderRepository.findByIdClient(clientId);
+            return SerializersCatalog.getInstance(Serializers.XML_ORDER).serialize(clientOrders.stream().map(OrderMapper::OrderToDTO).toList());
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving orders for client " + clientId + ": " + e.getMessage());
+        }
     }
 
     private boolean datesMatch(String dateString, LocalDateTime dateTime) {
         if (dateString == null && dateTime == null) {
             return true;
         }
+
         if (dateString == null || dateTime == null) {
             return false;
         }
+
         try {
             LocalDateTime parsed = LocalDateTime.parse(dateString, DATE_FORMATTER);
             return parsed.equals(dateTime);

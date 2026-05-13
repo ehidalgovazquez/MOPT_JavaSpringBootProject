@@ -63,6 +63,18 @@ public class ClientServicesImpl implements ClientServices {
     // Implementando los métodos de la interfaz
 
     @Override
+    public String getAllToJson() throws ServiceException {
+        Iterable<ClientDTO> clients = clientRepository.findAll();
+        return SerializersCatalog.getInstance(Serializers.JSON_CLIENT).serialize(clients);
+    }
+
+    @Override
+    public String getAllToXml() throws ServiceException {
+        Iterable<ClientDTO> clients = clientRepository.findAll();
+        return SerializersCatalog.getInstance(Serializers.XML_CLIENT).serialize(clients);
+    }
+
+    @Override
     public String getByIdToJson(int id) throws ServiceException {
         return SerializersCatalog.getInstance(Serializers.JSON_CLIENT).serialize(this.getById(id));
     }

@@ -9,6 +9,8 @@ public interface ClientRepository  {
 
     public Optional<ClientDTO> findById(int id);
 
+    public List<ClientDTO> findAll();
+
     public List<ClientDTO> findByEmail(String email);
  
     public List<ClientDTO> findByPartialEmail(String email);
