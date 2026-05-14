@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.softlearning.core.entity.client.appservices.ClientServices;
 import com.example.softlearning.core.entity.sharedkernel.model.exceptions.ServiceException;
 import com.example.softlearning.infrastructure.security.service.JwtService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 @RestController
 @RequestMapping("/softlearning/clients")
@@ -192,14 +195,14 @@ public class RestClientController {
     private Integer extractIdClientFromData(String clientData) {
         try {
             if (clientData.trim().startsWith("{")) {
-                com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-                com.fasterxml.jackson.databind.JsonNode node = mapper.readTree(clientData);
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode node = mapper.readTree(clientData);
                 if (node.has("idClient")) {
                     return node.get("idClient").asInt();
                 }
             } else {
-                com.fasterxml.jackson.dataformat.xml.XmlMapper mapper = new com.fasterxml.jackson.dataformat.xml.XmlMapper();
-                com.fasterxml.jackson.databind.JsonNode node = mapper.readTree(clientData.getBytes());
+                XmlMapper mapper = new XmlMapper();
+                JsonNode node = mapper.readTree(clientData.getBytes());
                 if (node.has("idClient")) {
                     return node.get("idClient").asInt();
                 }

@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.softlearning.infrastructure.persistence.jpa.auth.TokenRepository;
 import com.example.softlearning.infrastructure.security.auth.UserDetailsServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebSecurity
@@ -52,8 +51,8 @@ public class SecurityConfig {
                         // Clients endpoints
                         .requestMatchers(HttpMethod.GET, "/softlearning/clients").hasAnyRole("ADMIN", "MANAGER")
                         .requestMatchers(HttpMethod.GET, "/softlearning/clients/**").hasAnyRole("ADMIN", "MANAGER", "CLIENT")
-                        .requestMatchers(HttpMethod.POST, "/softlearning/clients/**").hasAnyRole("ADMIN", "MANAGER")
-                        .requestMatchers(HttpMethod.PUT, "/softlearning/clients/**").hasAnyRole("ADMIN", "MANAGER")
+                        .requestMatchers(HttpMethod.POST, "/softlearning/clients/**").hasAnyRole("ADMIN", "MANAGER", "CLIENT")
+                        .requestMatchers(HttpMethod.PUT, "/softlearning/clients/**").hasAnyRole("ADMIN", "MANAGER", "CLIENT")
                         .requestMatchers(HttpMethod.DELETE, "/softlearning/clients/**").hasRole("ADMIN")
 
                         // Orders endpoints
