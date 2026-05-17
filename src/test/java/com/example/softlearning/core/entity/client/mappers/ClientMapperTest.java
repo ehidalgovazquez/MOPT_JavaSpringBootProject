@@ -67,7 +67,7 @@ class ClientMapperTest {
     @DisplayName("Lanza BuildException si el DTO contiene absolutamente todos los datos invalidos")
     void dtoToClient_AllInvalidData_ThrowsBuildException() {
         ClientDTO invalidDto = new ClientDTO(
-            500, "1", "mal@co", "123", "Corta", "J", "fecha-mala"
+            -5, "1", "mal@co", "123", "Corta", "J", "fecha-mala"
         );
 
         BuildException ex = assertThrows(BuildException.class, () -> ClientMapper.DTOToClient(invalidDto));
@@ -86,7 +86,7 @@ class ClientMapperTest {
     @DisplayName("Lanza BuildException si el DTO tiene unicamente el idClient invalido")
     void dtoToClient_InvalidIdClient_ThrowsBuildException() {
         ClientDTO dto = new ClientDTO(
-            999, "12345678A", "cliente@dominio.com", "123456789", "Calle Verdadera 123", "Juan Perez", "2024-01-01"
+            -5, "12345678A", "cliente@dominio.com", "123456789", "Calle Verdadera 123", "Juan Perez", "2024-01-01"
         );
 
         BuildException ex = assertThrows(BuildException.class, () -> ClientMapper.DTOToClient(dto));
